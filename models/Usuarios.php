@@ -1,56 +1,110 @@
 <?php
+
 namespace app\models;
+
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+
 /**
- * User model
+ * This is the model class for table "user".
  *
- * @property integer $id
+ * @property int $id
  * @property string $username
+ * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
- * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ * @property int $status
+ * @property int $created_at
+ * @property int $updated_at
+ * 
+ * @property FindItemname $findItemname
+ * @property ItemAssignments $itemAssignments
+ *
+ * @property AuthAssignment[] $authAssignments
+ * @property AuthItem[] $itemNames
  */
-class User extends ActiveRecord implements IdentityInterface {
+class Usuarios extends \yii\db\ActiveRecord
+{
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    
     public $password;
+    public $globalSearch;
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public static function tableName() {
-        return '{{%user}}';
+    public static function tableName()
+    {
+        return 'user';
     }
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function behaviors() {
+    public function rules()
+    {
         return [
-            TimestampBehavior::className(),
+            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email', 'password'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'unique'],
+            [['password_reset_token'], 'unique'],
+            [['globalSearch', 'password'], 'safe'],
         ];
     }
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function rules() {
+    public function attributeLabels()
+    {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            [['password'], 'string', 'max' => 255],
-            [['password'], 'safe'],
+            'id' => 'ID',
+            'username' => 'Nombre de usuario',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'status' => 'Status',
+            'created_at' => 'Creado',
+            'updated_at' => 'Updated At',
+            'globalSearch' => 'Buscar',
+            'itemAssignments.item_name' => 'Permiso',
+            'user_id'=> 'Usuario',
         ];
     }
+
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
+    public function getAuthAssignments()
+    {
+        return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
+    }
+    
+    public function getItemAssignments()
+    {
+        return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id']);
+    }
+    
+    protected function FindItemname() {
+        
+        $completo = $this->authAssignments->item_name;
+        return $completo;
+        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getItemNames()
+    {
+        return $this->hasMany(AuthItem::className(), ['name' => 'item_name'])->viaTable('auth_assignment', ['user_id' => 'id']);
+    }
+    
     public static function findIdentity($id) {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }

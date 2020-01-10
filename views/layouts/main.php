@@ -27,35 +27,50 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
+        <?php
+        if (Yii::$app->user->isGuest) {
+            NavBar::begin([
+                'brandLabel' => 'Funviews',
+                'brandUrl' => Yii::$app->homeUrl,
+                'options' => [
+                    'class' => 'navbar-inverse navbar-fixed-top',
+                ],
+            ]);
+        } else {
+            NavBar::begin([
+                'brandLabel' => 'Funviews  Administracion',
+                'brandUrl' => Yii::$app->homeUrl,
+                'options' => [
+                    'class' => 'navbar-inverse navbar-fixed-top',
+                ],
+            ]);
+        }
+        if (Yii::$app->user->can('superAdmin')) {
+            $menuItems[] = ['label' => 'Control acceso',
+                        'items' => [
+                            ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+                            ['label' => 'Crear usuario', 'url' => ['/usuarios/create']],
+                            ['label' => 'Items de permisos', 'url' => ['/auth-item/index']],
+                        ],
+            ];
+        }
+
+        if (Yii::$app->user->isGuest) {
+            $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        } else {
+            $menuItems[] = [
+                'label' => 'Salir (' . Yii::$app->user->identity->username . ')',
+                'url' => ['/site/logout'],
+                'linkOptions' => ['data-method' => 'post']
+            ];
+        }
+
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => $menuItems,
+            'encodeLabels' => false,
+        ]);
+        NavBar::end();
     ?>
 
     <div class="container">
