@@ -67,15 +67,7 @@ class AuthRuleController extends Controller
         $model = new AuthRule();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                    Yii::$app->getSession()->setFlash('success', [
-                        'type' => 'success',
-                        'duration' => 1500,
-                        'icon' => 'fa fa-users',
-                        'message' => 'Role creado',
-                        'title' => 'Funviews',
-                        'positonY' => 'top',
-                        'positonX' => 'right'
-                    ]);
+
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
@@ -96,15 +88,7 @@ class AuthRuleController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Role actualizado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
             return $this->redirect(['index']);
         }
 
@@ -123,15 +107,7 @@ class AuthRuleController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-                Yii::$app->getSession()->setFlash('danger', [
-                    'type' => 'danger',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Role eliminado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
         return $this->redirect(['index']);
     }
 

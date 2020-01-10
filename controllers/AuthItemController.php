@@ -80,15 +80,7 @@ class AuthItemController extends Controller
         $model = new AuthItem();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                    Yii::$app->getSession()->setFlash('success', [
-                        'type' => 'success',
-                        'duration' => 1500,
-                        'icon' => 'fa fa-users',
-                        'message' => 'Item creado',
-                        'title' => 'Funviews',
-                        'positonY' => 'top',
-                        'positonX' => 'right'
-                    ]);
+
             return $this->redirect(['index']);
         }
 
@@ -109,15 +101,7 @@ class AuthItemController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Item actualizado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
             return $this->redirect(['index']);
         }
 
@@ -136,15 +120,7 @@ class AuthItemController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-                Yii::$app->getSession()->setFlash('danger', [
-                    'type' => 'danger',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Item eliminado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
         return $this->redirect(['index']);
     }
 

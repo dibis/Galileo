@@ -31,7 +31,7 @@ AppAsset::register($this);
         <?php
         if (Yii::$app->user->isGuest) {
             NavBar::begin([
-                'brandLabel' => 'Funviews',
+                'brandLabel' => 'UC La Estrella',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,7 +39,7 @@ AppAsset::register($this);
             ]);
         } else {
             NavBar::begin([
-                'brandLabel' => 'Funviews  Administracion',
+                'brandLabel' => 'UC La Estrella  Administracion',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',

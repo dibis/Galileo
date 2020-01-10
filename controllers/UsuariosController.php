@@ -80,15 +80,6 @@ class UsuariosController extends Controller {
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()) {
-                    Yii::$app->getSession()->setFlash('success', [
-                        'type' => 'success',
-                        'duration' => 1500,
-                        'icon' => 'fa fa-users',
-                        'message' => 'Usuario creado',
-                        'title' => 'Funviews',
-                        'positonY' => 'top',
-                        'positonX' => 'right'
-                    ]);
                     return $this->redirect(['index']);
                 }
             }
@@ -112,16 +103,6 @@ class UsuariosController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Usuario actualizado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
-                
             return $this->redirect(['index']);
         }
 
@@ -139,23 +120,8 @@ class UsuariosController extends Controller {
 
         if ($user->load(Yii::$app->request->post())) {
 
-//        if ($user === null) {
-//            
-//            return $this->redirect(['index']);
-//            
-//        } else {
             if ($user->resetPassword($user->password)) {
-                
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Contraseña cambiada',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
-                
+
                 return $this->redirect(['index']);
             } else {
 
@@ -164,7 +130,6 @@ class UsuariosController extends Controller {
                 ]);
             }
         }
-        //return self::EXIT_CODE_NORMAL;
 
         return $this->render('change', [
                     'user' => $user,
@@ -178,17 +143,7 @@ class UsuariosController extends Controller {
             $model = $this->findModelPermisos($id);
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Usuario cambiado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
-                
+                               
                 return $this->redirect(['index']);
             }
 
@@ -202,16 +157,6 @@ class UsuariosController extends Controller {
             $model->user_id = $id;
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Usuario creado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
                 
                 return $this->redirect(['index']);
             }
@@ -233,16 +178,6 @@ class UsuariosController extends Controller {
     public function actionDelete($id) {
         $this->findModel($id)->delete();
 
-                Yii::$app->getSession()->setFlash('danger', [
-                    'type' => 'danger',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Usuario eliminado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
-        
         return $this->redirect(['index']);
     }
 

@@ -68,15 +68,7 @@ class AuthItemChildController extends Controller
         $model = new AuthItemChild();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                    Yii::$app->getSession()->setFlash('success', [
-                        'type' => 'success',
-                        'duration' => 1500,
-                        'icon' => 'fa fa-users',
-                        'message' => 'Item creado',
-                        'title' => 'Funviews',
-                        'positonY' => 'top',
-                        'positonX' => 'right'
-                    ]);
+
             return $this->redirect(['view', 'parent' => $model->parent, 'child' => $model->child]);
         }
 
@@ -98,15 +90,7 @@ class AuthItemChildController extends Controller
         $model = $this->findModel($parent, $child);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Item actualizado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
             return $this->redirect(['view', 'parent' => $model->parent, 'child' => $model->child]);
         }
 
@@ -126,15 +110,7 @@ class AuthItemChildController extends Controller
     public function actionDelete($parent, $child)
     {
         $this->findModel($parent, $child)->delete();
-                Yii::$app->getSession()->setFlash('danger', [
-                    'type' => 'danger',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Item eliminado',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
         return $this->redirect(['index']);
     }
 

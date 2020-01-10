@@ -81,15 +81,7 @@ class AuthAssignmentController extends Controller
         $model = new AuthAssignment();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                    Yii::$app->getSession()->setFlash('success', [
-                        'type' => 'success',
-                        'duration' => 1500,
-                        'icon' => 'fa fa-users',
-                        'message' => 'Asignación creada',
-                        'title' => 'Funviews',
-                        'positonY' => 'top',
-                        'positonX' => 'right'
-                    ]);
+
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         }
 
@@ -111,15 +103,7 @@ class AuthAssignmentController extends Controller
         $model = $this->findModel($item_name, $user_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', [
-                    'type' => 'success',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Asignación actualizada',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         }
 
@@ -139,15 +123,7 @@ class AuthAssignmentController extends Controller
     public function actionDelete($item_name, $user_id)
     {
         $this->findModel($item_name, $user_id)->delete();
-                Yii::$app->getSession()->setFlash('danger', [
-                    'type' => 'danger',
-                    'duration' => 1500,
-                    'icon' => 'fa fa-users',
-                    'message' => 'Asignación eliminada',
-                    'title' => 'Funviews',
-                    'positonY' => 'top',
-                    'positonX' => 'right'
-                ]);
+
         return $this->redirect(['index']);
     }
 
