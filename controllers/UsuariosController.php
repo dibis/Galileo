@@ -109,7 +109,7 @@ class UsuariosController extends Controller {
                 $imagepath = 'uploads/users/';
                 $model->image = $imagepath . rand(10, 100) . $model->file->name;
             }
-
+            //Eliminar la imagen si se ha cambiado
             if ($model->save()) {
 
                 if ($model->file) {
