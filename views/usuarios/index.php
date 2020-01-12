@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
 GridView::widget([
     'dataProvider' => $dataProvider,
+    'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '<span class="text-danger"><strong>Sin permiso</strong></span>'],
     'tableOptions' => ['class' => 'table table-striped'],
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
@@ -68,31 +69,32 @@ GridView::widget([
         ],
         //'updated_at',
             ['class' => 'yii\grid\ActionColumn',
-             'contentOptions' => ['style' => 'width:130px;'],
+             'contentOptions' => ['style' => 'text-align: right;'],
              'template' => '{view} {update} {change} {permisos} {delete}',
              'buttons' => [
                     //view button
                     'view' => function ($url, $model) {
-                        return  Html::a('<i class="glyphicon glyphicon-eye-open"></i>', $url, 
-                        [ 'title' => Yii::t('app', 'View')]) ;
+                        return  Html::a('<span class="fa fa-search"></span>'.Yii::t('app', 'Ver'), $url, 
+                        [ 'title' => Yii::t('app', 'View'), 'class'=>'btn btn-primary btn-xs', ]) ;
                     },
                     'update' => function ($url, $model) {
-                        return  Html::a('<i class="glyphicon glyphicon-pencil"></i>', $url, 
-                        [ 'title' => Yii::t('app', 'Update')]) ;
+                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Update'), $url, 
+                        [ 'title' => Yii::t('app', 'Update'), 'class'=>'btn btn-warning btn-xs', ]) ;
                     },
                     'change' => function ($url, $model) {
-                        return  Html::a('<i class="glyphicon glyphicon-lock"></i>', $url, 
-                        [ 'title' => 'Cambiar contraseña']) ;
+                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Change pass'), $url, 
+                        [ 'title' => Yii::t('app', 'Change pass'), 'class'=>'btn btn-success btn-xs', ]) ;
                     },
                     'permisos' => function ($url, $model) {
-                        return  Html::a('<i class="glyphicon glyphicon-user"></i>', $url, 
-                        [ 'title' => 'Asignar permisos']) ;
+                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Change rol'), $url, 
+                        [ 'title' => Yii::t('app', 'Change rol'), 'class'=>'btn btn-success btn-xs', ]) ;
                     },
                     'delete' => function($url, $model){
-                        return Html::a('<i class="glyphicon glyphicon-trash"></i>', ['delete', 'id' => $model->id], [
-                            'title' => 'Eliminar',
+                        return Html::a('<span class="fa fa-remove"></span>'.Yii::t('app', 'Delete'),  ['delete', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Delete'),
+                            'class' => 'btn btn-danger btn-xs',
                             'data' => [
-                                'confirm' => '¿Está seguro de querer eliminar el registro?.',
+                                'confirm' => Yii::t('app', 'Are you sure?'),
                                 'method' => 'post',
                             ],
                         ]);
