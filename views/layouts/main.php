@@ -46,7 +46,7 @@ AppAsset::register($this);
                 ],
             ]);
         }
-        if (Yii::$app->user->can('superAdmin')) {
+        if (Yii::$app->user->can('superadmin')) {
             $menuItems[] = ['label' => 'Control acceso',
                         'items' => [
                             ['label' => 'Usuarios', 'url' => ['/usuarios/index']],

@@ -33,8 +33,8 @@ class AuthItemController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-			'actions' => ['index', 'create', 'update', 'view', 'delete'],
-                        'roles' => ['superAdmin'],
+                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                        'roles' => ['superadmin'],
                     ],
                 // everything else is denied
                 ],

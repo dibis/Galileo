@@ -29,13 +29,13 @@ class UsuariosController extends Controller {
             ],
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['index', 'create', 'update', 'view', 'delete'],
+                'only' => ['index', 'create', 'update', 'view', 'delete', 'change', 'permisos'],
                 'rules' => [
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
-                        'roles' => ['superAdmin'],
+                        'actions' => ['index', 'create', 'update', 'view', 'delete', 'change', 'permisos'],
+                        'roles' => ['superadmin'],
                     ],
                 // everything else is denied
                 ],

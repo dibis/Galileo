@@ -78,23 +78,23 @@ GridView::widget([
                         [ 'title' => Yii::t('app', 'View'), 'class'=>'btn btn-primary btn-xs', ]) ;
                     },
                     'update' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Update'), $url, 
+                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Actualizar'), $url, 
                         [ 'title' => Yii::t('app', 'Update'), 'class'=>'btn btn-warning btn-xs', ]) ;
                     },
                     'change' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Change pass'), $url, 
+                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Contraseña'), $url, 
                         [ 'title' => Yii::t('app', 'Change pass'), 'class'=>'btn btn-success btn-xs', ]) ;
                     },
                     'permisos' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Change rol'), $url, 
+                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Permisos'), $url, 
                         [ 'title' => Yii::t('app', 'Change rol'), 'class'=>'btn btn-success btn-xs', ]) ;
                     },
                     'delete' => function($url, $model){
-                        return Html::a('<span class="fa fa-remove"></span>'.Yii::t('app', 'Delete'),  ['delete', 'id' => $model->id], [
+                        return Html::a('<span class="fa fa-remove"></span>'.Yii::t('app', 'Borrar'),  ['delete', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Delete'),
                             'class' => 'btn btn-danger btn-xs',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure?'),
+                                'confirm' => Yii::t('app', '¿Está seguro de querer eliminarlo?'),
                                 'method' => 'post',
                             ],
                         ]);
