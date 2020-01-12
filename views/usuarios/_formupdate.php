@@ -10,26 +10,39 @@ use yii\bootstrap\ActiveForm;
 <div class="site-signup">
     <br>
     <div class="row">
-        <div class="col-lg-6">
-            
+        <div class="col-lg-12">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+            <div class="col-md-6">
             <?= $form->field($model, 'username')->label('Nombre de usuario') ?>
             <?= $form->field($model, 'name') ?>
-            <?= $form->field($model, 'image') ?>
+            </div>
+            <div class="col-md-6">
+            <?= $form->field($model, 'email') ?>
+            <?= $form->field($model, 'surnames') ?>
+            </div>
+            
+            <?php
+            if ($model->image) {
 
-            <div class="form-group">
+                echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->image . '" width="70px">';
+                echo '<br>';
+                echo Html::a(Yii::t('app', 'Eliminar'), ['usuarios/deletefoto', 'id' => $model->id], ['class' => 'btn-danger']) . '<p>';
+
+            }
+            ?>
+
+            <?= $form->field($model, 'file')->fileInput() ?>
+
+            <br><br><div class="form-group">
                 <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
             </div>
-            <?php ActiveForm::end(); ?>
-        </div>
-        <div class="col-lg-6">
-            
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-            <?= $form->field($model, 'email') ?>
-            <?= $form->field($model, 'surnames') ?>
 
         </div>
-        
+            
+            <?php ActiveForm::end(); ?>
+        </div>
+
+
     </div>
 </div>

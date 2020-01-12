@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 raoul2000\bootswatch\BootswatchAsset::$theme = 'flatly';
 AppAsset::register($this);
@@ -39,7 +40,7 @@ AppAsset::register($this);
             ]);
         } else {
             NavBar::begin([
-                'brandLabel' => 'UC La Estrella  Administracion',
+                'brandLabel' => 'UC La Estrella  - Administracion',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -60,7 +61,11 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
         } else {
             $menuItems[] = [
-                'label' => 'Salir (' . Yii::$app->user->identity->username . ')',
+                'label' => Html::img(Url::to(Yii::$app->request->BaseUrl.'/'.
+                        Yii::$app->user->identity->image), 
+                        ['alt' => Yii::$app->user->identity->image,
+                        'style' => 'height: 25px; width: 25px', 'class'=>'img-circle']).
+                        ' '.' Salir (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ];

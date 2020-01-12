@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\SignupForm;
-use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * UsuariosController implements the CRUD actions for usuarios model.
@@ -84,6 +84,7 @@ class UsuariosController extends Controller {
                 }
             }
         }
+
         return $this->render('create', [
                     'model' => $model,
         ]);
@@ -101,9 +102,21 @@ class UsuariosController extends Controller {
 
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if ($model->file) {
+                $imagepath = 'uploads/users/';
+                $model->image = $imagepath . rand(10, 100) . $model->file->name;
+            }
+
+            if ($model->save()) {
+
+                if ($model->file) {
+                    $model->file->saveAs($model->image);
+                }
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('update', [
@@ -139,25 +152,24 @@ class UsuariosController extends Controller {
     public function actionPermisos($id) {
 
         if (($model = \app\models\AuthAssignment::findOne(['user_id' => $id])) !== null) {
-            
+
             $model = $this->findModelPermisos($id);
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                               
+
                 return $this->redirect(['index']);
             }
 
             return $this->render('createpermisos', [
                         'model' => $model,
             ]);
-            
         } else {
 
             $model = new \app\models\AuthAssignment();
             $model->user_id = $id;
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                
+
                 return $this->redirect(['index']);
             }
 
@@ -165,7 +177,6 @@ class UsuariosController extends Controller {
                         'model' => $model,
             ]);
         }
-
     }
 
     /**
@@ -201,9 +212,23 @@ class UsuariosController extends Controller {
 
         if (($model = \app\models\AuthAssignment::findOne(['user_id' => $user_id])) !== null) {
             return $model;
-        }else{
+        } else {
             return false;
         }
+    }
+    
+    public function actionDeletefoto($id){
+        $foto = Usuarios::find()->where(['id'=>$id])->one()->image;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $usuario = Usuarios::findOne($id);
+        $usuario->image = null;
+        $usuario->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
         
     }
 

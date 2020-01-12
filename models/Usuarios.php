@@ -30,6 +30,7 @@ class Usuarios extends \yii\db\ActiveRecord
     
     public $password;
     public $globalSearch;
+    public $file;
 
     /**
      * {@inheritdoc}
@@ -54,7 +55,8 @@ class Usuarios extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
-            [['globalSearch', 'password'], 'safe'],
+            [['globalSearch', 'password', 'file'], 'safe'],
+            [['file'], 'file', 'extensions' => 'jpg, jpeg, gif, png'],
         ];
     }
 
@@ -65,7 +67,7 @@ class Usuarios extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Nombre de usuario',
+            'username' => Yii::t('app', 'Usuario'),
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
@@ -79,6 +81,7 @@ class Usuarios extends \yii\db\ActiveRecord
             'globalSearch' => 'Buscar',
             'itemAssignments.item_name' => 'Permiso',
             'user_id'=> 'Usuario',
+            'file' => Yii::t('app', 'Imagen'),
         ];
     }
 
