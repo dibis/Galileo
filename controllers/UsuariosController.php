@@ -45,7 +45,6 @@ class UsuariosController extends Controller {
 
     /**
      * Lists all usuarios models.
-     * @return mixed
      */
     public function actionIndex() {
         $searchModel = new UsuariosSearch();
@@ -101,6 +100,7 @@ class UsuariosController extends Controller {
 
 
         $model = $this->findModel($id);
+        $image = $model->image;
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -113,7 +113,13 @@ class UsuariosController extends Controller {
             if ($model->save()) {
 
                 if ($model->file) {
+
                     $model->file->saveAs($model->image);
+
+                    if ($model->image != $image && $image != null && !empty($image) 
+                            && file_exists(Yii::$app->request->BaseUrl . '/' . $image)) {
+                        unlink(Yii::$app->request->BaseUrl . '/' . $model->image);
+                    }
                 }
                 return $this->redirect(['index']);
             }
@@ -180,21 +186,26 @@ class UsuariosController extends Controller {
     }
 
     /**
-     * Deletes an existing usuarios model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
 
+        $model = $this->findModel($id);
+        $image = $model->image;
+
+        if ($image != null && !empty($image) 
+                && file_exists(Yii::$app->request->BaseUrl . '/' . $image)) {
+            unlink(Yii::$app->request->BaseUrl . '/' . $model->image);
+        }
+
+        $this->findModel($id)->delete();
+        
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the usuarios model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return usuarios the loaded model
      * @throws NotFoundHttpException if the model cannot be found
@@ -208,6 +219,7 @@ class UsuariosController extends Controller {
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    
     protected function findModelPermisos($user_id) {
 
         if (($model = \app\models\AuthAssignment::findOne(['user_id' => $user_id])) !== null) {
@@ -216,20 +228,20 @@ class UsuariosController extends Controller {
             return false;
         }
     }
+
     
-    public function actionDeletefoto($id){
-        $foto = Usuarios::find()->where(['id'=>$id])->one()->image;
-        if($foto){
-            if(!unlink($foto)){
+    public function actionDeletefoto($id) {
+        $foto = Usuarios::find()->where(['id' => $id])->one()->image;
+        if ($foto) {
+            if (!unlink($foto)) {
                 return false;
             }
         }
         $usuario = Usuarios::findOne($id);
         $usuario->image = null;
         $usuario->update();
-        
+
         return $this->redirect(['update', 'id' => $id]);
-        
     }
 
 }

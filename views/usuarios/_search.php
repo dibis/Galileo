@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
         ]
     ]); ?>
 
-    <?= $form->field($model, 'globalSearch')->textInput([ 'placeholder' => 'Busqueda global' ])->label(false)?>
+    <?= $form->field($model, 'globalSearch')->textInput([ 'placeholder' => Yii::t('app', 'Search') ])->label(false)?>
 
     <?php ActiveForm::end(); ?>
 </div>

@@ -16,6 +16,9 @@ use Yii;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ * @property string $image
+ * @property string $name
+ * @property string $surnames
  * 
  * @property FindItemname $findItemname
  * @property ItemAssignments $itemAssignments
@@ -66,22 +69,22 @@ class Usuarios extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => Yii::t('app', 'Usuario'),
-            'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
-            'password_reset_token' => 'Password Reset Token',
-            'email' => 'Email',
-            'status' => 'Status',
-            'name' => 'Nombre',
-            'surnames' => 'Apellidos',
-            'image' => 'Imagen',
-            'created_at' => 'Creado',
-            'updated_at' => 'Updated At',
-            'globalSearch' => 'Buscar',
-            'itemAssignments.item_name' => 'Permiso',
-            'user_id'=> 'Usuario',
-            'file' => Yii::t('app', 'Imagen'),
+            'id' => Yii::t('app', 'Id'),
+            'username' => Yii::t('app', 'User'),
+            'auth_key' =>Yii::t('app', 'Auth Key'),
+            'password_hash' =>Yii::t('app', 'Password Hash'),
+            'password_reset_token' =>Yii::t('app', 'Password Reset Token'),
+            'email' => Yii::t('app', 'Email'),
+            'status' => Yii::t('app', 'Status'),
+            'name' =>Yii::t('app', 'Name'),
+            'surnames' =>Yii::t('app', 'Surnames'),
+            'image' =>Yii::t('app', 'Image'),
+            'created_at' =>Yii::t('app', 'Created at'),
+            'updated_at' =>Yii::t('app', 'Updated At'),
+            'globalSearch' =>Yii::t('app', 'Search'),
+            'itemAssignments.item_name' =>Yii::t('app', 'Roles'),
+            'user_id'=>Yii::t('app', 'User id'),
+            'file' => Yii::t('app', 'Image'),
         ];
     }
 

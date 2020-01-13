@@ -40,7 +40,7 @@ AppAsset::register($this);
             ]);
         } else {
             NavBar::begin([
-                'brandLabel' => 'UC La Estrella  - Administracion',
+                'brandLabel' => 'UC La Estrella - '.Yii::t('app', 'Administration'),
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -58,14 +58,14 @@ AppAsset::register($this);
         }
 
         if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+            $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
         } else {
             $menuItems[] = [
-                'label' => Html::img(Url::to(Yii::$app->request->BaseUrl.'/'.
+                'label' => Yii::t('app', 'Logout').' (' . Yii::$app->user->identity->username . ') '.
+                Html::img(Url::to(Yii::$app->request->BaseUrl.'/'.
                         Yii::$app->user->identity->image), 
                         ['alt' => Yii::$app->user->identity->image,
-                        'style' => 'height: 25px; width: 25px', 'class'=>'img-circle']).
-                        ' '.' Salir (' . Yii::$app->user->identity->username . ')',
+                        'style' => 'height: 25px; width: 25px', 'class'=>'img-circle']),
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ];

@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\UsuariosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Usuarios';
+$this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-xs-3">
 
-            <?= Html::a('Nuevo', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp&nbsp'.Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
 
         </div>
 
@@ -74,27 +74,27 @@ GridView::widget([
              'buttons' => [
                     //view button
                     'view' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-search"></span>'.Yii::t('app', 'Ver'), $url, 
+                        return  Html::a('<i class="glyphicon glyphicon-info-sign"></i>&nbsp'.Yii::t('app', 'View'), $url, 
                         [ 'title' => Yii::t('app', 'View'), 'class'=>'btn btn-primary btn-xs', ]) ;
                     },
                     'update' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Actualizar'), $url, 
+                        return  Html::a('<i class="glyphicon glyphicon-pencil"></i>&nbsp'.Yii::t('app', 'Update'), $url, 
                         [ 'title' => Yii::t('app', 'Update'), 'class'=>'btn btn-warning btn-xs', ]) ;
                     },
                     'change' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Contraseña'), $url, 
+                        return  Html::a('<i class="glyphicon glyphicon-lock"></i>&nbsp'.Yii::t('app', 'Pass'), $url, 
                         [ 'title' => Yii::t('app', 'Change pass'), 'class'=>'btn btn-success btn-xs', ]) ;
                     },
                     'permisos' => function ($url, $model) {
-                        return  Html::a('<span class="fa fa-pencil-square-o"></span>'.Yii::t('app', 'Permisos'), $url, 
+                        return  Html::a('<i class="glyphicon glyphicon-user"></i>&nbsp'.Yii::t('app', 'Roles'), $url, 
                         [ 'title' => Yii::t('app', 'Change rol'), 'class'=>'btn btn-success btn-xs', ]) ;
                     },
                     'delete' => function($url, $model){
-                        return Html::a('<span class="fa fa-remove"></span>'.Yii::t('app', 'Borrar'),  ['delete', 'id' => $model->id], [
+                        return Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp'.Yii::t('app', 'Delete'),  ['delete', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Delete'),
                             'class' => 'btn btn-danger btn-xs',
                             'data' => [
-                                'confirm' => Yii::t('app', '¿Está seguro de querer eliminarlo?'),
+                                'confirm' => Yii::t('app', 'Are your sure?'),
                                 'method' => 'post',
                             ],
                         ]);
