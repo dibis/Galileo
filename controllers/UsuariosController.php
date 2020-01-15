@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\SignupForm;
 use yii\web\UploadedFile;
+use app\helpers\UserHelper;
+use yii\base\UserException;
 
 /**
  * UsuariosController implements the CRUD actions for usuarios model.
@@ -36,6 +38,11 @@ class UsuariosController extends Controller {
                         'allow' => true,
                         'actions' => ['index', 'create', 'update', 'view', 'delete', 'change', 'permisos'],
                         'roles' => ['superadmin'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['admin', 'editor', 'user'],
                     ],
                 // everything else is denied
                 ],
@@ -101,6 +108,17 @@ class UsuariosController extends Controller {
 
         $model = $this->findModel($id);
         $image = $model->image;
+        
+        $identity = Yii::$app->user->identity->id;
+        $niveles = new UserHelper();
+        $nivel = $niveles->nivelUsuario($identity);
+        
+        if($nivel > 1){
+            if($id <> $identity){
+                 throw new UserException(Yii::t('app', 'Insufficient permissions for this action'));
+            }
+        }
+        
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -127,6 +145,8 @@ class UsuariosController extends Controller {
 
         return $this->render('update', [
                     'model' => $model,
+                    'nivel' => $nivel,
+                    'identity' => $identity,
         ]);
     }
 

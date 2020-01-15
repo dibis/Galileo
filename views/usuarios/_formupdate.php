@@ -9,11 +9,12 @@ use yii\bootstrap\ActiveForm;
 ?>
 <div class="site-signup">
     <br>
+
     <div class="row">
         <div class="col-lg-12">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
             <div class="col-md-6">
-            <?= $form->field($model, 'username')->label('Nombre de usuario') ?>
+            <?= $form->field($model, 'username')->label(Yii::t('app', 'User name')) ?>
             <?= $form->field($model, 'name') ?>
             </div>
             <div class="col-md-6">
@@ -26,15 +27,16 @@ use yii\bootstrap\ActiveForm;
 
                 echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->image . '" width="70px">';
                 echo '<br>';
-                echo Html::a(Yii::t('app', 'Eliminar'), ['usuarios/deletefoto', 'id' => $model->id], ['class' => 'btn-danger']) . '<p>';
-
+                echo Html::a(Yii::t('app', 'Delete'), ['usuarios/deletefoto', 'id' => $model->id], ['class' => 'btn-danger']) . '<p>';
+                echo $nivel;
+                echo $identity;
             }
             ?>
 
             <?= $form->field($model, 'file')->fileInput() ?>
 
             <br><br><div class="form-group">
-                <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
             </div>
 

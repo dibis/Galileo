@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
         'data' => ArrayHelper::map(app\models\Usuarios::find()->orderBy('username')->all(), 'id', 'username'),
         'language' => 'es',
         'disabled' => true,
-        'options' => ['placeholder' => 'Selecione el usuario.....'],
+        'options' => ['placeholder' => Yii::t('app', 'Select user.....')],
         'pluginOptions' => [
             'allowClear' => true
         ],
@@ -31,7 +31,7 @@ use yii\helpers\ArrayHelper;
         'data' => ArrayHelper::map(\app\models\AuthItem::find()->orderBy('name')->all(),
                 'name', 'name'),
         'language' => 'es',
-        'options' => ['placeholder' => 'Selecione el permiso.....'],
+        'options' => ['placeholder' => Yii::t('app', 'Select rol.....')],
         'pluginOptions' => [
             'allowClear' => true
         ],

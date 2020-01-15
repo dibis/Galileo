@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\UsuariosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
+$this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-index">
@@ -36,17 +36,17 @@ $this->params['breadcrumbs'][] = $this->title;
     </div><br>
 
 <?=
-            
+
 GridView::widget([
     'dataProvider' => $dataProvider,
-    'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '<span class="text-danger"><strong>Sin permiso</strong></span>'],
+    'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '<span class="text-danger"><strong>---</strong></span>'],
     'tableOptions' => ['class' => 'table table-striped'],
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         //'id',
         'username',
-        //'auth_key',
-        //'password_hash',
+        'name',
+        'surnames',
         //'password_reset_token',
         'email:email',
         //'status',
@@ -60,7 +60,6 @@ GridView::widget([
                     }
                 },
             ],
-
         'itemAssignments.item_name',
         //'created_at',
         [

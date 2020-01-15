@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\usuarios */
 
-$this->title = 'Nuevo permisos';
-$this->params['breadcrumbs'][] = ['label' => 'Permisos', 'url' => ['index']];
+$this->title = Yii::t('app', 'New rol');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Rol'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-create">

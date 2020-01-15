@@ -54,6 +54,8 @@ class UsuariosSearch extends usuarios
         $dataProvider->setSort([
             'attributes' => [
                 'username',
+                'name',
+                'surnames',
                 'email',
                 'status',
                 'created_at',

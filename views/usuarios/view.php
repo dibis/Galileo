@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-view">
 
-    <h1><?= Html::encode($this->title) ?></h1><br>
+    <h1><?= Html::encode($this->title)?></h1><br>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'id',
             'username',
-            //'auth_key',
-            //'password_hash',
+            'name',
+            'surnames',
             //'password_reset_token',
             'email:email',
             'itemAssignments.item_name',
