@@ -47,6 +47,13 @@ $config = [
                 ],
             ],
         ],
+        'formatter' => [
+            'dateFormat' => 'dd-MM-yyyy',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'EUR',
+            'nullDisplay' => '<span class="text-danger"><strong></strong></span>',
+        ],
         'db' => $db,
     ],
     'params' => $params,

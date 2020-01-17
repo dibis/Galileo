@@ -39,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 GridView::widget([
     'dataProvider' => $dataProvider,
-    'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '<span class="text-danger"><strong>---</strong></span>'],
     'tableOptions' => ['class' => 'table table-striped'],
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],

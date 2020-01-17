@@ -50,9 +50,15 @@ AppAsset::register($this);
         if (Yii::$app->user->can('superadmin')) {
             $menuItems[] = ['label' => 'Control acceso',
                         'items' => [
-                            ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
-                            ['label' => 'Crear usuario', 'url' => ['/usuarios/create']],
-                            ['label' => 'Items de permisos', 'url' => ['/auth-item/index']],
+                            ['label' => Yii::t('app', 'Users'), 'url' => ['/usuarios/index']],
+                            ['label' => Yii::t('app', 'New user'), 'url' => ['/usuarios/create']],
+                            ['label' => Yii::t('app', 'Roles'), 'url' => ['/auth-item/index']],
+                        ],
+            ];
+        } elseif(Yii::$app->user->can('admin') || Yii::$app->user->can('editor') || Yii::$app->user->can('user')) {
+                        $menuItems[] = ['label' => Yii::t('app', 'Configuration'),
+                        'items' => [
+                            ['label' => Yii::t('app', 'Edit profile'), 'url' => ['/usuarios/update', 'id' => Yii::$app->user->identity->id]],
                         ],
             ];
         }

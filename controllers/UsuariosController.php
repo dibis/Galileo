@@ -139,7 +139,13 @@ class UsuariosController extends Controller {
                         unlink(Yii::$app->request->BaseUrl . '/' . $model->image);
                     }
                 }
-                return $this->redirect(['index']);
+                
+                if($nivel > 1){
+                    return $this->redirect(['site/index']);
+                }else{
+                    return $this->redirect(['index']);
+                }
+                
             }
         }
 
