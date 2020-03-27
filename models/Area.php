@@ -50,14 +50,14 @@ class Area extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'are_id' => Yii::t('app', 'Are ID'),
-            'are_nombre' => Yii::t('app', 'Are Nombre'),
-            'are_abreviatura' => Yii::t('app', 'Are Abreviatura'),
-            'are_nivel' => Yii::t('app', 'Are Nivel'),
-            'are_imagen' => Yii::t('app', 'Are Imagen'),
-            'are_notas' => Yii::t('app', 'Are Notas'),
-            'are_create_at' => Yii::t('app', 'Are Create At'),
-            'are_update_at' => Yii::t('app', 'Are Update At'),
+            'are_id' => Yii::t('app', 'Id'),
+            'are_nombre' => Yii::t('app', 'Name'),
+            'are_abreviatura' => Yii::t('app', 'Abbreviation'),
+            'are_nivel' => Yii::t('app', 'Level'),
+            'are_imagen' => Yii::t('app', 'Image'),
+            'are_notas' => Yii::t('app', 'Notes'),
+            'are_create_at' => Yii::t('app', 'Create At'),
+            'are_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

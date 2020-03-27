@@ -18,7 +18,7 @@ class PaisSearch extends Pais
     {
         return [
             [['pai_id'], 'integer'],
-            [['pai_nombre', 'pai_bandera', 'pai_create_at', 'pai_update_at'], 'safe'],
+            [['pai_nombre', 'pai_bandera', 'pai_create_at', 'pai_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +46,8 @@ class PaisSearch extends Pais
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['pai_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
         $this->load($params);
@@ -57,14 +59,15 @@ class PaisSearch extends Pais
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'pai_id' => $this->pai_id,
-            'pai_create_at' => $this->pai_create_at,
-            'pai_update_at' => $this->pai_update_at,
-        ]);
+//        $query->andFilterWhere([
+//            'pai_id' => $this->pai_id,
+//            'pai_create_at' => $this->pai_create_at,
+//            'pai_update_at' => $this->pai_update_at,
+//        ]);
 
-        $query->andFilterWhere(['like', 'pai_nombre', $this->pai_nombre])
-            ->andFilterWhere(['like', 'pai_bandera', $this->pai_bandera]);
+        $query->orFilterWhere(['like', 'pai_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'pai_create_at', $this->globalSearch])
+            ->orFilterWhere(['like', 'pai_bandera', $this->globalSearch]);
 
         return $dataProvider;
     }

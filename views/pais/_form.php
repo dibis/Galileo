@@ -16,12 +16,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'pai_bandera')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pai_create_at')->textInput() ?>
-
-    <?= $form->field($model, 'pai_update_at')->textInput() ?>
-
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

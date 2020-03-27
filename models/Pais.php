@@ -17,6 +17,8 @@ use Yii;
  */
 class Pais extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -33,6 +35,8 @@ class Pais extends \yii\db\ActiveRecord
         return [
             [['pai_nombre'], 'required'],
             [['pai_create_at', 'pai_update_at'], 'safe'],
+            [['globalSearch', 'file'], 'safe'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png'],
             [['pai_nombre'], 'string', 'max' => 75],
             [['pai_bandera'], 'string', 'max' => 255],
             [['pai_nombre'], 'unique'],
@@ -45,11 +49,11 @@ class Pais extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pai_id' => Yii::t('app', 'Pai ID'),
-            'pai_nombre' => Yii::t('app', 'Pai Nombre'),
-            'pai_bandera' => Yii::t('app', 'Pai Bandera'),
-            'pai_create_at' => Yii::t('app', 'Pai Create At'),
-            'pai_update_at' => Yii::t('app', 'Pai Update At'),
+            'pai_id' => Yii::t('app', 'Id'),
+            'pai_nombre' => Yii::t('app', 'Name'),
+            'pai_bandera' => Yii::t('app', 'Flag'),
+            'pai_create_at' => Yii::t('app', 'Create At'),
+            'pai_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 
