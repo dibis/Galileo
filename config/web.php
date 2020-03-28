@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'UC La Estrella',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'es',
@@ -17,6 +18,17 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'Txqnb0TQ45ui3K2ge0YfSmJi-isw3yIb',
+        ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            'currencyCode' => 'EUR',
+            //'dateFormat' => 'dd-MM-yyyy',
+            'booleanFormat' => [
+                '<span style="color:red"><i class="glyphicon glyphicon-remove"></i></span>',
+                '<span style="color:green"><i class="glyphicon glyphicon-ok"></i></span>'
+            ],
         ],
         'i18n' => [
             'translations' => [

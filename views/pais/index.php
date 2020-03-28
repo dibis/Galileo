@@ -7,8 +7,8 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\searchs\PaisSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Country');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'Management of').' '.Yii::t('app', 'Country');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Country');
 ?>
 <div class="pais-index">
 
@@ -43,27 +43,40 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             //'pai_id',
             'pai_nombre',
-            'pai_bandera',
-            'pai_create_at',
-            //'pai_update_at',
+            [
+                'attribute' => 'pai_bandera',
+                'value' => function ($model) {
+                    if (!empty($model->pai_bandera)) {
+                        return $model->pai_bandera;
+                    } else {
+                        return "uploads/country/nodefinido.jpg";
+                    }
+                },
+                'format' => ['image', ['height' => '25', 'width' => '35']],
+            ],
+            [
+                'attribute' => 'pai_create_at',
+                'value' => 'pai_create_at',
+                'format' => ['date', 'php: d-m-Y'],
+            ],
             ['class' => 'yii\grid\ActionColumn',
-                'contentOptions' => ['style' => 'width:190px;'],
+                'contentOptions' => ['style' => 'width:240px;'],
                 'template' => '{view} {update} {delete}',
                 'buttons' => [
                     //view button
                     'view' => function ($url, $model) {
-                        return Html::a('<span class="fa fa-search"></span>' . Yii::t('app', 'View'), $url,
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>'.' '. Yii::t('app', 'View'), $url,
                                         ['title' => Yii::t('app', 'View'), 'class' => 'btn btn-primary btn-xs',]);
                     },
                     'update' => function ($url, $model) {
-                        return Html::a('<span class="fa fa-pencil-square-o"></span>' . Yii::t('app', 'Update'), $url,
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>'.' '. Yii::t('app', 'Update'), $url,
                                         ['title' => Yii::t('app', 'Update'), 'class' => 'btn btn-warning btn-xs',]);
                     },
                     'delete' => function($url, $model) {
-                        return Html::a('<span class="fa fa-remove"></span>' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->pai_id], [
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>'.' '. Yii::t('app', 'Delete'), ['delete', 'id' => $model->pai_id], [
                                     'class' => 'btn btn-danger btn-xs',
                                     'data' => [
-                                        'confirm' => Yii::t('app', 'Are you sure?'),
+                                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                         'method' => 'post',
                                     ],
                         ]);

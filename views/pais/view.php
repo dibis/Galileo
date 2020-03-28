@@ -6,14 +6,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Pais */
 
-$this->title = $model->pai_nombre;
+$this->title = Yii::$app->name.' - '.$model->pai_nombre;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Country'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->pai_nombre;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="pais-view">
 
-    <h3><?= Html::encode($this->title) ?></h3><br>
+    <h3><?= Html::encode($model->pai_nombre) ?></h3><br>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->pai_id], ['class' => 'btn btn-primary']) ?>
@@ -32,9 +32,27 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'pai_id',
             'pai_nombre',
-            'pai_bandera',
-            'pai_create_at',
-            'pai_update_at',
+            [
+                'attribute' => 'pai_bandera',
+                'value' => function ($model) {
+                    if(!empty($model->pai_bandera)){
+                        return $model->pai_bandera;
+                    }else{
+                        return "uploads/country/nodefinido.jpg";
+                    }
+                },
+            'format' => ['image', ['height' => '25']],
+            ],
+                                    [
+                'attribute' => 'pai_create_at',
+                'value' => $model->pai_create_at,
+                'format' => ['date', 'php: d-m-Y'],
+            ],
+                                    [
+                'attribute' => 'pai_update_at',
+                'value' => $model->pai_update_at,
+                'format' => ['date', 'php: d-m-Y'],
+            ],
         ],
     ]) ?>
 

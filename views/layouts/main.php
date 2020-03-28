@@ -10,6 +10,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
+use lo\modules\noty\Wrapper;
+use kartik\icons\FontAwesomeAsset;
 
 raoul2000\bootswatch\BootswatchAsset::$theme = 'flatly';
 AppAsset::register($this);
@@ -85,13 +87,39 @@ AppAsset::register($this);
         NavBar::end();
     ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+            <div class="container">
+                <?=
+                Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ])
+                ?>
+                <?=
+                //Alert::widget() 
+//                    Wrapper::widget([
+//                        'layerClass' => 'lo\modules\noty\layers\Growl',
+//                    ]);
+                \lavrentiev\widgets\toastr\NotificationFlash::widget([
+                    'options' => [
+                        "closeButton" => true,
+                        "debug" => false,
+                        "newestOnTop" => false,
+                        //"progressBar" => false,
+                        "positionClass" => \lavrentiev\widgets\toastr\NotificationFlash::POSITION_TOP_RIGHT,
+                        "preventDuplicates" => false,
+                        "onclick" => null,
+                        "showDuration" => "300",
+                        "hideDuration" => "500",
+                        "timeOut" => "2000",
+                        "extendedTimeOut" => "500",
+                        "showEasing" => "swing",
+                        "hideEasing" => "linear",
+                        "showMethod" => "fadeIn",
+                        "hideMethod" => "fadeOut"
+                    ]
+                ])
+                ?>
+                <?= $content ?>
+            </div>
 </div>
 
 <footer class="footer">

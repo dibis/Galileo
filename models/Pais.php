@@ -36,7 +36,7 @@ class Pais extends \yii\db\ActiveRecord
             [['pai_nombre'], 'required'],
             [['pai_create_at', 'pai_update_at'], 'safe'],
             [['globalSearch', 'file'], 'safe'],
-            [['file'], 'file', 'extensions' => 'jpg, gif, png'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['pai_nombre'], 'string', 'max' => 75],
             [['pai_bandera'], 'string', 'max' => 255],
             [['pai_nombre'], 'unique'],

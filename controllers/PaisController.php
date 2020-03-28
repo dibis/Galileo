@@ -66,13 +66,26 @@ class PaisController extends Controller
     {
         $model = new Pais();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->pai_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/country/';
+                    $model->pai_bandera = $imagepath.rand(10,100).$model->file->name;
+                }
+                
+                if( $model->save()){
+                    if($model->file){
+                        $model->file->saveAs($model->pai_bandera);
+                    }
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->pai_nombre);
+                    return $this->redirect(['create']);
+                }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            }
+
+            return $this->render('create', [
+                        'model' => $model,
+            ]);
     }
 
     /**
@@ -86,9 +99,24 @@ class PaisController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->pai_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/country/';
+                    $model->pai_bandera = $imagepath.rand(10,100).$model->file->name;
+                }
+                
+                if($model->save()){
+                    
+                    if($model->file){
+                        $model->file->saveAs($model->pai_bandera);
+                    }
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->pai_nombre);
+                    return $this->redirect(['index']);
+                }
+
+            }
 
         return $this->render('update', [
             'model' => $model,
@@ -104,11 +132,27 @@ class PaisController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+            $nombre = $this->findModel($id)->pai_nombre;
+            $this->findModel($id)->delete();
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ').$nombre);
+            return $this->redirect(['index']);
     }
 
+    public function actionDeletefoto($id){
+        $foto = Pais::find()->where(['pai_id'=>$id])->one()->pai_bandera;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen = Pais::findOne($id);
+        $imagen->pai_bandera = null;
+        $imagen->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
+    }
+    
     /**
      * Finds the Pais model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
