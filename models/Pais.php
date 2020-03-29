@@ -50,7 +50,7 @@ class Pais extends \yii\db\ActiveRecord
     {
         return [
             'pai_id' => Yii::t('app', 'Id'),
-            'pai_nombre' => Yii::t('app', 'Name'),
+            'pai_nombre' => Yii::t('app', 'Country'),
             'pai_bandera' => Yii::t('app', 'Flag'),
             'pai_create_at' => Yii::t('app', 'Create At'),
             'pai_update_at' => Yii::t('app', 'Update At'),

@@ -70,7 +70,7 @@ class PaisController extends Controller
                 $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
                 if($model->file){
                     $imagepath = 'uploads/country/';
-                    $model->pai_bandera = $imagepath.rand(10,100).$model->file->name;
+                    $model->pai_bandera = $imagepath.rand(10,100).'_'.$model->file->name;
                 }
                 
                 if( $model->save()){
@@ -104,7 +104,7 @@ class PaisController extends Controller
                 $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
                 if($model->file){
                     $imagepath = 'uploads/country/';
-                    $model->pai_bandera = $imagepath.rand(10,100).$model->file->name;
+                    $model->pai_bandera = $imagepath.rand(10,100).'_'.$model->file->name;
                 }
                 
                 if($model->save()){
@@ -132,10 +132,10 @@ class PaisController extends Controller
      */
     public function actionDelete($id)
     {
-            $nombre = $this->findModel($id)->pai_nombre;
-            $this->findModel($id)->delete();
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ').$nombre);
-            return $this->redirect(['index']);
+        $nombre = $this->findModel($id)->pai_nombre;
+        $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
+        return $this->redirect(['index']);
     }
 
     public function actionDeletefoto($id){

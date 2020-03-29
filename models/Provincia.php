@@ -18,6 +18,7 @@ use Yii;
  */
 class Provincia extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -33,8 +34,9 @@ class Provincia extends \yii\db\ActiveRecord
     {
         return [
             [['pro_nombre'], 'required'],
-            [['pro_nombre', 'pro_region'], 'integer'],
-            [['pro_create_at', 'pro_update_at'], 'safe'],
+            [['pro_nombre'], 'string', 'max' => 75],
+            [['pro_region'], 'integer'],
+            [['pro_create_at', 'pro_update_at', 'globalSearch',], 'safe'],
             [['pro_nombre'], 'unique'],
             [['pro_region'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['pro_region' => 'reg_id']],
         ];
@@ -46,11 +48,11 @@ class Provincia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pro_id' => Yii::t('app', 'Pro ID'),
-            'pro_nombre' => Yii::t('app', 'Pro Nombre'),
-            'pro_region' => Yii::t('app', 'Pro Region'),
-            'pro_create_at' => Yii::t('app', 'Pro Create At'),
-            'pro_update_at' => Yii::t('app', 'Pro Update At'),
+            'pro_id' => Yii::t('app', 'Id'),
+            'pro_nombre' => Yii::t('app', 'Province'),
+            'pro_region' => Yii::t('app', 'Region'),
+            'pro_create_at' => Yii::t('app', 'Create At'),
+            'pro_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

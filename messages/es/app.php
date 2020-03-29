@@ -123,10 +123,18 @@ return [
     'Notes' => 'Notas',
     'Create At' => 'Creado',
     'Update At' => 'Actualizado',
+    //Pais
     'Id' => 'Id',
     'Area' => 'Area',
     'Flag' => 'Bandera',
     'Country' => 'Pais',
+    //Region
+    'Region' => 'Región',
+    'Regions' => 'Regiones',
+    'Select one country' => 'Seleccione un pais',
+    //Provincia
+    'Province' => 'Provincia',
+    
 
     
 ];

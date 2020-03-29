@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * ProvinciaController implements the CRUD actions for Provincia model.
  */
-class ProvinciaController extends Controller
-{
+class ProvinciaController extends Controller {
+
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +32,13 @@ class ProvinciaController extends Controller
      * Lists all Provincia models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ProvinciaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -50,10 +48,9 @@ class ProvinciaController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -62,16 +59,16 @@ class ProvinciaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Provincia();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->pro_id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->pro_nombre);
+            return $this->redirect(['create']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -82,16 +79,16 @@ class ProvinciaController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->pro_id]);
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->pro_nombre);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -102,11 +99,13 @@ class ProvinciaController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
+        
+        $nombre = $this->findModel($id)->pro_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
+        
     }
 
     /**
@@ -116,12 +115,12 @@ class ProvinciaController extends Controller
      * @return Provincia the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Provincia::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
 }

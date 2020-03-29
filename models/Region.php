@@ -19,6 +19,8 @@ use Yii;
  */
 class Region extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -35,10 +37,11 @@ class Region extends \yii\db\ActiveRecord
         return [
             [['reg_nombre', 'reg_pais'], 'required'],
             [['reg_pais'], 'integer'],
-            [['reg_create_at', 'reg_update_at'], 'safe'],
+            [['reg_create_at', 'reg_update_at', 'globalSearch',], 'safe'],
             [['reg_nombre'], 'string', 'max' => 75],
             [['reg_bandera'], 'string', 'max' => 255],
             [['reg_nombre'], 'unique'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['reg_pais'], 'exist', 'skipOnError' => true, 'targetClass' => Pais::className(), 'targetAttribute' => ['reg_pais' => 'pai_id']],
         ];
     }
@@ -49,12 +52,12 @@ class Region extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'reg_id' => Yii::t('app', 'Reg ID'),
-            'reg_nombre' => Yii::t('app', 'Reg Nombre'),
-            'reg_pais' => Yii::t('app', 'Reg Pais'),
-            'reg_bandera' => Yii::t('app', 'Reg Bandera'),
-            'reg_create_at' => Yii::t('app', 'Reg Create At'),
-            'reg_update_at' => Yii::t('app', 'Reg Update At'),
+            'reg_id' => Yii::t('app', 'Id'),
+            'reg_nombre' => Yii::t('app', 'Region'),
+            'reg_pais' => Yii::t('app', 'Country'),
+            'reg_bandera' => Yii::t('app', 'Flag'),
+            'reg_create_at' => Yii::t('app', 'Create At'),
+            'reg_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 
