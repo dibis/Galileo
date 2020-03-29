@@ -134,6 +134,8 @@ return [
     'Select one country' => 'Seleccione un pais',
     //Provincia
     'Province' => 'Provincia',
+    'Select one region' => 'Seleccione un región',
+    
     
 
     

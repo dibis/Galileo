@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Provincia */
 
-$this->title = Yii::t('app', 'Create Provincia');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Provincias'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'New').' '.Yii::t('app', 'Province');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Province'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'New').' '.Yii::t('app', 'Province');
 ?>
 <div class="provincia-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
