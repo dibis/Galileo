@@ -36,7 +36,7 @@ class Provincia extends \yii\db\ActiveRecord
             [['pro_nombre'], 'required'],
             [['pro_nombre'], 'string', 'max' => 75],
             [['pro_region'], 'integer'],
-            [['pro_create_at', 'pro_update_at', 'globalSearch',], 'safe'],
+            [['pro_create_at', 'pro_update_at', 'globalSearch'], 'safe'],
             [['pro_nombre'], 'unique'],
             [['pro_region'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['pro_region' => 'reg_id']],
         ];

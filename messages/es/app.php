@@ -125,7 +125,7 @@ return [
     'Update At' => 'Actualizado',
     //Pais
     'Id' => 'Id',
-    'Area' => 'Area',
+    'Area' => 'Área',
     'Flag' => 'Bandera',
     'Country' => 'Pais',
     //Region
@@ -135,6 +135,10 @@ return [
     //Provincia
     'Province' => 'Provincia',
     'Select one region' => 'Seleccione un región',
+    //Ciudad
+    'City' => 'Ciudad',
+    'Postal code' => 'Código Postal',
+    'Select one province' => 'Seleccione una provincia',
     
     
 

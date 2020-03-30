@@ -66,9 +66,22 @@ class AreaController extends Controller
     {
         $model = new Area();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->are_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/area/';
+                    $model->are_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                
+                if( $model->save()){
+                    if($model->file){
+                        $model->file->saveAs($model->are_imagen);
+                    }
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->are_nombre);
+                    return $this->redirect(['create']);
+                }
+
+            }
 
         return $this->render('create', [
             'model' => $model,
@@ -86,9 +99,24 @@ class AreaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->are_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/area/';
+                    $model->are_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                
+                if($model->save()){
+                    
+                    if($model->file){
+                        $model->file->saveAs($model->are_imagen);
+                    }
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->are_nombre);
+                    return $this->redirect(['index']);
+                }
+
+            }
 
         return $this->render('update', [
             'model' => $model,
@@ -104,9 +132,25 @@ class AreaController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->are_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
+    }
+    
+    public function actionDeletefoto($id){
+        $foto = Area::find()->where(['are_id'=>$id])->one()->are_imagen;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen = Area::findOne($id);
+        $imagen->are_imagen = null;
+        $imagen->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
     }
 
     /**

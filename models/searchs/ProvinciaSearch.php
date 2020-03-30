@@ -71,15 +71,6 @@ class ProvinciaSearch extends Provincia
             return $dataProvider;
         }
 
-        // grid filtering conditions
-//        $query->andFilterWhere([
-//            'pro_id' => $this->pro_id,
-//            'pro_nombre' => $this->pro_nombre,
-//            'pro_region' => $this->pro_region,
-//            'pro_create_at' => $this->pro_create_at,
-//            'pro_update_at' => $this->pro_update_at,
-//        ]);
-
         $query->joinWith(['proRegion']);
         
         $query->orFilterWhere(['like', 'pro_nombre', $this->globalSearch])

@@ -58,13 +58,6 @@ class PaisSearch extends Pais
             return $dataProvider;
         }
 
-        // grid filtering conditions
-//        $query->andFilterWhere([
-//            'pai_id' => $this->pai_id,
-//            'pai_create_at' => $this->pai_create_at,
-//            'pai_update_at' => $this->pai_update_at,
-//        ]);
-
         $query->orFilterWhere(['like', 'pai_nombre', $this->globalSearch])
             ->orFilterWhere(['like', 'pai_create_at', $this->globalSearch])
             ->orFilterWhere(['like', 'pai_bandera', $this->globalSearch]);

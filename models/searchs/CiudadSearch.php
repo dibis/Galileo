@@ -9,24 +9,22 @@ use app\models\Ciudad;
 /**
  * CiudadSearch represents the model behind the search form of `app\models\Ciudad`.
  */
-class CiudadSearch extends Ciudad
-{
+class CiudadSearch extends Ciudad {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['ciu_id', 'ciu_provincia'], 'integer'],
-            [['ciu_nombre', 'ciu_codpos', 'ciu_create_at', 'ciu_update_at'], 'safe'],
+            [['ciu_id', 'ciu_provincia', 'ciu_codpos',], 'integer'],
+            [['ciu_nombre', 'ciu_codpos', 'ciu_create_at', 'ciu_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,14 +36,29 @@ class CiudadSearch extends Ciudad
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
+        
         $query = Ciudad::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['ciu_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
+        ]);
+
+        $dataProvider->setSort([
+            'attributes' => [
+                'ciu_nombre',
+                'ciu_create_at',
+                'ciu_codpos',
+                'ciuProvincia.pro_nombre' => [
+                    'asc' => ['provincia.pro_nombre' => SORT_ASC,],
+                    'desc' => ['provincia.pro_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Province'),
+                ],
+            ]
         ]);
 
         $this->load($params);
@@ -56,17 +69,13 @@ class CiudadSearch extends Ciudad
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'ciu_id' => $this->ciu_id,
-            'ciu_provincia' => $this->ciu_provincia,
-            'ciu_create_at' => $this->ciu_create_at,
-            'ciu_update_at' => $this->ciu_update_at,
-        ]);
+        $query->joinWith(['ciuProvincia']);
 
-        $query->andFilterWhere(['like', 'ciu_nombre', $this->ciu_nombre])
-            ->andFilterWhere(['like', 'ciu_codpos', $this->ciu_codpos]);
+        $query->orFilterWhere(['like', 'ciu_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'ciu_codpos', $this->globalSearch])
+                ->orFilterWhere(['like', 'provincia.pro_nombre', $this->globalSearch]);
 
         return $dataProvider;
     }
+
 }

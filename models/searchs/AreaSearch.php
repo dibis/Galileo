@@ -18,7 +18,8 @@ class AreaSearch extends Area
     {
         return [
             [['are_id', 'are_nivel'], 'integer'],
-            [['are_nombre', 'are_abreviatura', 'are_imagen', 'are_notas', 'are_create_at', 'are_update_at'], 'safe'],
+            [['are_nombre', 'are_abreviatura', 'are_imagen', 'are_notas',
+                'are_create_at', 'are_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +47,8 @@ class AreaSearch extends Area
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['are_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
         $this->load($params);
@@ -56,18 +59,9 @@ class AreaSearch extends Area
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'are_id' => $this->are_id,
-            'are_nivel' => $this->are_nivel,
-            'are_create_at' => $this->are_create_at,
-            'are_update_at' => $this->are_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'are_nombre', $this->are_nombre])
-            ->andFilterWhere(['like', 'are_abreviatura', $this->are_abreviatura])
-            ->andFilterWhere(['like', 'are_imagen', $this->are_imagen])
-            ->andFilterWhere(['like', 'are_notas', $this->are_notas]);
+        $query->orFilterWhere(['like', 'are_nombre', $this->are_nombre])
+            ->orFilterWhere(['like', 'are_abreviatura', $this->are_abreviatura])
+            ->orFilterWhere(['like', 'are_nivel', $this->are_abreviatura]);
 
         return $dataProvider;
     }

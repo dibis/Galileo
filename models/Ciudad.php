@@ -20,6 +20,7 @@ use Yii;
  */
 class Ciudad extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -35,11 +36,12 @@ class Ciudad extends \yii\db\ActiveRecord
     {
         return [
             [['ciu_nombre'], 'required'],
-            [['ciu_provincia'], 'integer'],
-            [['ciu_create_at', 'ciu_update_at'], 'safe'],
+            [['ciu_provincia', 'ciu_codpos'], 'integer'],
+            [['ciu_create_at', 'ciu_update_at', 'globalSearch'], 'safe'],
             [['ciu_nombre'], 'string', 'max' => 75],
             [['ciu_codpos'], 'string', 'max' => 5],
             [['ciu_nombre'], 'unique'],
+            [['ciu_codpos'], 'unique'],
             [['ciu_provincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['ciu_provincia' => 'pro_id']],
         ];
     }
@@ -50,12 +52,12 @@ class Ciudad extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ciu_id' => Yii::t('app', 'Ciu ID'),
-            'ciu_nombre' => Yii::t('app', 'Ciu Nombre'),
-            'ciu_provincia' => Yii::t('app', 'Ciu Provincia'),
-            'ciu_codpos' => Yii::t('app', 'Ciu Codpos'),
-            'ciu_create_at' => Yii::t('app', 'Ciu Create At'),
-            'ciu_update_at' => Yii::t('app', 'Ciu Update At'),
+            'ciu_id' => Yii::t('app', 'Id'),
+            'ciu_nombre' => Yii::t('app', 'City'),
+            'ciu_provincia' => Yii::t('app', 'Province'),
+            'ciu_codpos' => Yii::t('app', 'Postal code'),
+            'ciu_create_at' => Yii::t('app', 'Create At'),
+            'ciu_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

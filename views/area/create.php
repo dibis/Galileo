@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Area */
 
-$this->title = Yii::t('app', 'Create Area');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Areas'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'New').' '.Yii::t('app', 'Area');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Area'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'New').' '.Yii::t('app', 'Area');
 ?>
 <div class="area-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

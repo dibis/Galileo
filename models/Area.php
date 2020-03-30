@@ -20,6 +20,8 @@ use Yii;
  */
 class Area extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -36,7 +38,8 @@ class Area extends \yii\db\ActiveRecord
         return [
             [['are_nombre', 'are_abreviatura'], 'required'],
             [['are_nivel'], 'integer'],
-            [['are_create_at', 'are_update_at'], 'safe'],
+            [['are_create_at', 'are_update_at', 'globalSearch'], 'safe'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['are_nombre'], 'string', 'max' => 60],
             [['are_abreviatura'], 'string', 'max' => 3],
             [['are_imagen', 'are_notas'], 'string', 'max' => 255],
@@ -51,7 +54,7 @@ class Area extends \yii\db\ActiveRecord
     {
         return [
             'are_id' => Yii::t('app', 'Id'),
-            'are_nombre' => Yii::t('app', 'Name'),
+            'are_nombre' => Yii::t('app', 'Area'),
             'are_abreviatura' => Yii::t('app', 'Abbreviation'),
             'are_nivel' => Yii::t('app', 'Level'),
             'are_imagen' => Yii::t('app', 'Image'),
