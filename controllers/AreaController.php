@@ -72,6 +72,8 @@ class AreaController extends Controller
                     $imagepath = 'uploads/area/';
                     $model->are_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
                 }
+                $mayusculas = $model->are_abreviatura;
+                $model->are_abreviatura = strtoupper($mayusculas);
                 
                 if( $model->save()){
                     if($model->file){
@@ -106,6 +108,9 @@ class AreaController extends Controller
                     $imagepath = 'uploads/area/';
                     $model->are_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
                 }
+                
+                $mayusculas = $model->are_abreviatura;
+                $model->are_abreviatura = strtoupper($mayusculas);
                 
                 if($model->save()){
                     

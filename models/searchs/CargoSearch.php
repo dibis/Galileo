@@ -9,24 +9,22 @@ use app\models\Cargo;
 /**
  * CargoSearch represents the model behind the search form of `app\models\Cargo`.
  */
-class CargoSearch extends Cargo
-{
+class CargoSearch extends Cargo {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['car_id', 'car_nivel', 'car_area'], 'integer'],
-            [['car_nombre', 'car_abreviatura', 'car_notas', 'car_create_at', 'car_update_at'], 'safe'],
+            [['car_nombre', 'car_abreviatura', 'car_notas', 'car_create_at', 'car_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,14 +36,29 @@ class CargoSearch extends Cargo
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Cargo::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['car_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
+        ]);
+        
+        $dataProvider->setSort([
+            'attributes' => [
+                'car_nombre',
+                'car_create_at',
+                'car_nivel',
+                'car_abreviatura',
+                'carArea.are_nombre' => [
+                    'asc' => ['area.are_nombre' => SORT_ASC,],
+                    'desc' => ['area.are_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Area'),
+                ],
+            ]
         ]);
 
         $this->load($params);
@@ -55,20 +68,15 @@ class CargoSearch extends Cargo
             // $query->where('0=1');
             return $dataProvider;
         }
+        
+        $query->joinWith(['carArea']);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'car_id' => $this->car_id,
-            'car_nivel' => $this->car_nivel,
-            'car_area' => $this->car_area,
-            'car_create_at' => $this->car_create_at,
-            'car_update_at' => $this->car_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'car_nombre', $this->car_nombre])
-            ->andFilterWhere(['like', 'car_abreviatura', $this->car_abreviatura])
-            ->andFilterWhere(['like', 'car_notas', $this->car_notas]);
+        $query->orFilterWhere(['like', 'car_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'car_nivel', $this->globalSearch])
+                ->orFilterWhere(['like', 'area.are_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'car_abreviatura', $this->globalSearch]);
 
         return $dataProvider;
     }
+
 }

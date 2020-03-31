@@ -6,38 +6,53 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cargo */
 
-$this->title = $model->car_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cargos'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name . ' - ' . $model->car_nombre;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Position'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->car_nombre;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="cargo-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($model->car_nombre) ?></h3><br>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->car_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->car_id], [
+        <?=
+        Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->car_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ])
+        ?>
     </p>
+    <br>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'car_id',
             'car_nombre',
             'car_abreviatura',
             'car_nivel',
-            'car_area',
+            'carArea.are_nombre',
             'car_notas',
-            'car_create_at',
-            'car_update_at',
+            [
+                'attribute' => 'car_create_at',
+                'value' => $model->car_create_at,
+                'format' => ['date', 'php: d-m-Y'],
+            ],
+            [
+                'attribute' => 'car_update_at',
+                'value' => $model->car_update_at,
+                'format' => ['date', 'php: d-m-Y'],
+            ],
         ],
     ]) ?>
+    
+    <p>
+        <br>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
+    </p>
 
 </div>

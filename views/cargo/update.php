@@ -5,16 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cargo */
 
-$this->title = Yii::t('app', 'Update Cargo: {name}', [
-    'name' => $model->car_id,
-]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cargos'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->car_id, 'url' => ['view', 'id' => $model->car_id]];
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'Update').' '. $model->car_nombre;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Position'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->car_nombre, 'url' => ['view', 'id' => $model->car_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="cargo-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

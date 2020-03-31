@@ -139,7 +139,8 @@ return [
     'City' => 'Ciudad',
     'Postal code' => 'Código Postal',
     'Select one province' => 'Seleccione una provincia',
-    
+    //Cargo
+    'Position' => 'Cargo',
     
 
     

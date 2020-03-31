@@ -66,9 +66,18 @@ class CargoController extends Controller
     {
         $model = new Cargo();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->car_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+
+                $mayusculas = $model->car_abreviatura;
+                $model->car_abreviatura = strtoupper($mayusculas);
+                
+                if( $model->save()){
+
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->car_nombre);
+                    return $this->redirect(['create']);
+                }
+
+            }
 
         return $this->render('create', [
             'model' => $model,
@@ -86,9 +95,18 @@ class CargoController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->car_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $mayusculas = $model->are_abreviatura;
+                $model->are_abreviatura = strtoupper($mayusculas);
+                
+                if($model->save()){
+
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->car_nombre);
+                    return $this->redirect(['index']);
+                }
+
+            }
 
         return $this->render('update', [
             'model' => $model,
@@ -104,8 +122,9 @@ class CargoController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->car_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 

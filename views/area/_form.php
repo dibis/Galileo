@@ -10,24 +10,63 @@ use yii\widgets\ActiveForm;
 
 <div class="area-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'are_nombre')->textInput(['maxlength' => true]) ?>
+    <div><br>
+        <div  class="row">
+            <div class="col-xs-4">
+                <?= $form->field($model, 'are_nombre')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-xs-4">
+                <?= $form->field($model, 'are_abreviatura')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+            </div>
+            <div class="col-xs-4">
+                <?= $form->field($model, 'are_nivel')->textInput(['maxlength' => true]) ?>
+            </div>
+        </div><br>
+        <div class="row">
+            
+        <div class="col-xs-6">    
+            
+            <div class="panel panel-success ">
+                <div class="panel-heading" style="font-weight:bold;"><?= Yii::t('app', 'Image') ?></div>
+                <div class="panel-body">
+                    <div class="col-xs-1" style="text-align: left"><br>
 
-    <?= $form->field($model, 'are_abreviatura')->textInput(['maxlength' => true]) ?>
+                        <?php
+                        if ($model->are_imagen) {
+                            echo '<center>';
+                            echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->are_imagen . '" width="40px">';
+                            echo '<br><br>';
+                            echo Html::a(Yii::t('app', 'Delete'), ['pais/deletefoto', 'id' => $model->are_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
+                            echo '</center>';
+                        }
+                        ?>
 
-    <?= $form->field($model, 'are_nivel')->textInput() ?>
+                    </div>
+                    <div class="col-xs-5"><br>
 
-    <?= $form->field($model, 'are_imagen')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'file')->fileInput(['class' => 'btn btn-success'])->label(false) ?>
 
-    <?= $form->field($model, 'are_notas')->textInput(['maxlength' => true]) ?>
+                    </div>
 
-    <?= $form->field($model, 'are_create_at')->textInput() ?>
+                    <div class="col-xs-6"><br></div>
+                </div>
+            </div>
+            
+        </div>
+            
+        <div class="col-xs-6">
+            <?= $form->field($model, 'are_notas')->textarea(['maxlength' => true, 'rows' => 5]) ?>
+        </div>
+            
+        </div>
 
-    <?= $form->field($model, 'are_update_at')->textInput() ?>
+    </div><br>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

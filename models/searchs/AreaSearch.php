@@ -59,9 +59,9 @@ class AreaSearch extends Area
             return $dataProvider;
         }
 
-        $query->orFilterWhere(['like', 'are_nombre', $this->are_nombre])
-            ->orFilterWhere(['like', 'are_abreviatura', $this->are_abreviatura])
-            ->orFilterWhere(['like', 'are_nivel', $this->are_abreviatura]);
+        $query->orFilterWhere(['like', 'are_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'are_abreviatura', $this->globalSearch])
+            ->orFilterWhere(['like', 'are_nivel', $this->globalSearch]);
 
         return $dataProvider;
     }
