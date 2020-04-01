@@ -65,10 +65,19 @@ class LicenciaController extends Controller
     public function actionCreate()
     {
         $model = new Licencia();
+        
+            if ($model->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->li_id]);
-        }
+                $mayusculas = $model->lic_letra;
+                $model->lic_letra = strtoupper($mayusculas);
+                
+                if( $model->save()){
+
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->lic_nombre);
+                    return $this->redirect(['create']);
+                }
+
+            }
 
         return $this->render('create', [
             'model' => $model,
@@ -86,8 +95,16 @@ class LicenciaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->li_id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $mayusculas = $model->lic_letra;
+            $model->lic_letra = strtoupper($mayusculas);
+
+            if ($model->save()) {
+
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->lic_nombre);
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('update', [
@@ -104,8 +121,9 @@ class LicenciaController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->lic_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 

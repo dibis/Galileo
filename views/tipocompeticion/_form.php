@@ -16,14 +16,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tip_rango')->textInput() ?>
 
-    <?= $form->field($model, 'tip_notas')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'tip_create_at')->textInput() ?>
-
-    <?= $form->field($model, 'tip_update_at')->textInput() ?>
+    <?= $form->field($model, 'tip_notas')->textarea(['maxlength' => true, 'rows' => 5]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

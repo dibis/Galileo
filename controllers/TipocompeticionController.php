@@ -67,7 +67,8 @@ class TipocompeticionController extends Controller
         $model = new Tipocompeticion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->tip_id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->tip_nombre);
+            return $this->redirect(['create']);
         }
 
         return $this->render('create', [
@@ -87,7 +88,8 @@ class TipocompeticionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->tip_id]);
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->tip_nombre);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -104,8 +106,9 @@ class TipocompeticionController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->tip_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 

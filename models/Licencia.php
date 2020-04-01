@@ -21,6 +21,7 @@ use Yii;
  */
 class Licencia extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -35,13 +36,16 @@ class Licencia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lic_nombre', 'lic_letra', 'lic_rango', 'lic_notas'], 'required'],
+            [['lic_nombre', 'lic_letra'], 'required'],
             [['lic_rango'], 'integer'],
-            [['lic_create_at', 'lic_update_at'], 'safe'],
+            [['lic_create_at', 'lic_update_at', 'globalSearch'], 'safe'],
             [['lic_nombre'], 'string', 'max' => 60],
             [['lic_letra'], 'string', 'max' => 3],
+            [['lic_rango'], 'string', 'max' => 2],
             [['lic_notas'], 'string', 'max' => 255],
             [['lic_nombre'], 'unique'],
+            [['lic_letra'], 'unique'],
+            [['lic_rango'], 'unique'],
         ];
     }
 
@@ -51,13 +55,13 @@ class Licencia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'li_id' => Yii::t('app', 'Li ID'),
-            'lic_nombre' => Yii::t('app', 'Lic Nombre'),
-            'lic_letra' => Yii::t('app', 'Lic Letra'),
-            'lic_rango' => Yii::t('app', 'Lic Rango'),
-            'lic_notas' => Yii::t('app', 'Lic Notas'),
-            'lic_create_at' => Yii::t('app', 'Lic Create At'),
-            'lic_update_at' => Yii::t('app', 'Lic Update At'),
+            'li_id' => Yii::t('app', 'Id'),
+            'lic_nombre' => Yii::t('app', 'License'),
+            'lic_letra' => Yii::t('app', 'Word'),
+            'lic_rango' => Yii::t('app', 'Rank'),
+            'lic_notas' => Yii::t('app', 'Notes'),
+            'lic_create_at' => Yii::t('app', 'Create At'),
+            'lic_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

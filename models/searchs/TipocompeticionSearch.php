@@ -18,7 +18,7 @@ class TipocompeticionSearch extends Tipocompeticion
     {
         return [
             [['tip_id', 'tip_nombre', 'tip_rango'], 'integer'],
-            [['tip_notas', 'tip_create_at', 'tip_update_at'], 'safe'],
+            [['tip_notas', 'tip_create_at', 'tip_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +46,8 @@ class TipocompeticionSearch extends Tipocompeticion
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['tip_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 10]
         ]);
 
         $this->load($params);
@@ -56,16 +58,8 @@ class TipocompeticionSearch extends Tipocompeticion
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'tip_id' => $this->tip_id,
-            'tip_nombre' => $this->tip_nombre,
-            'tip_rango' => $this->tip_rango,
-            'tip_create_at' => $this->tip_create_at,
-            'tip_update_at' => $this->tip_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'tip_notas', $this->tip_notas]);
+        $query->orFilterWhere(['like', 'tip_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'tip_rango', $this->globalSearch]);
 
         return $dataProvider;
     }

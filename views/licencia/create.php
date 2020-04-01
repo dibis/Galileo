@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Licencia */
 
-$this->title = Yii::t('app', 'Create Licencia');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Licencias'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'New').' '.Yii::t('app', 'License');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'License'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'New').' '.Yii::t('app', 'License');
 ?>
 <div class="licencia-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

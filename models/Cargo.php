@@ -42,8 +42,9 @@ class Cargo extends \yii\db\ActiveRecord
             [['car_nombre'], 'string', 'max' => 75],
             [['car_nivel'], 'string', 'max' => 2],
             [['car_abreviatura'], 'string', 'max' => 3],
+            [['car_nivel'], 'string', 'max' => 2],
             [['car_notas'], 'string', 'max' => 255],
-            [['car_area', 'car_nombre'], 'unique'],
+            [['car_nombre'], 'unique'],
             [['car_area'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['car_area' => 'are_id']],
         ];
     }

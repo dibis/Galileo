@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * CargoController implements the CRUD actions for Cargo model.
  */
-class CargoController extends Controller
-{
+class CargoController extends Controller {
+
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +32,13 @@ class CargoController extends Controller
      * Lists all Cargo models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new CargoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -50,10 +48,9 @@ class CargoController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -62,25 +59,23 @@ class CargoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Cargo();
 
-            if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())) {
 
-                $mayusculas = $model->car_abreviatura;
-                $model->car_abreviatura = strtoupper($mayusculas);
-                
-                if( $model->save()){
+            $mayusculas = $model->car_abreviatura;
+            $model->car_abreviatura = strtoupper($mayusculas);
 
-                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->car_nombre);
-                    return $this->redirect(['create']);
-                }
+            if ($model->save()) {
 
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->car_nombre);
+                return $this->redirect(['create']);
             }
+        }
 
         return $this->render('create', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -91,25 +86,23 @@ class CargoController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-            if ($model->load(Yii::$app->request->post())) {
-                
-                $mayusculas = $model->are_abreviatura;
-                $model->are_abreviatura = strtoupper($mayusculas);
-                
-                if($model->save()){
+        if ($model->load(Yii::$app->request->post())) {
 
-                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->car_nombre);
-                    return $this->redirect(['index']);
-                }
+            $mayusculas = $model->are_abreviatura;
+            $model->are_abreviatura = strtoupper($mayusculas);
 
+            if ($model->save()) {
+
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->car_nombre);
+                return $this->redirect(['index']);
             }
+        }
 
         return $this->render('update', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -120,8 +113,7 @@ class CargoController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $nombre = $this->findModel($id)->car_nombre;
         $this->findModel($id)->delete();
         Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
@@ -135,12 +127,12 @@ class CargoController extends Controller
      * @return Cargo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Cargo::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
 }

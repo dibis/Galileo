@@ -25,41 +25,41 @@ use yii\widgets\ActiveForm;
             </div>
         </div><br>
         <div class="row">
-            
-        <div class="col-xs-6">    
-            
-            <div class="panel panel-success ">
-                <div class="panel-heading" style="font-weight:bold;"><?= Yii::t('app', 'Image') ?></div>
-                <div class="panel-body">
-                    <div class="col-xs-1" style="text-align: left"><br>
 
-                        <?php
-                        if ($model->are_imagen) {
-                            echo '<center>';
-                            echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->are_imagen . '" width="40px">';
-                            echo '<br><br>';
-                            echo Html::a(Yii::t('app', 'Delete'), ['pais/deletefoto', 'id' => $model->are_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
-                            echo '</center>';
-                        }
-                        ?>
+            <div class="col-xs-6">    
 
+                <div class="panel panel-success ">
+                    <div class="panel-heading" style="font-weight:bold;"><?= Yii::t('app', 'Image') ?></div>
+                    <div class="panel-body">
+                        <div class="col-xs-1" style="text-align: left"><br>
+
+                            <?php
+                            if ($model->are_imagen) {
+                                echo '<center>';
+                                echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->are_imagen . '" width="40px">';
+                                echo '<br><br>';
+                                echo Html::a(Yii::t('app', 'Delete'), ['pais/deletefoto', 'id' => $model->are_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
+                                echo '</center>';
+                            }
+                            ?>
+
+                        </div>
+                        <div class="col-xs-5"><br>
+
+                            <?= $form->field($model, 'file')->fileInput(['class' => 'btn btn-success'])->label(false) ?>
+
+                        </div>
+
+                        <div class="col-xs-6"><br></div>
                     </div>
-                    <div class="col-xs-5"><br>
-
-                        <?= $form->field($model, 'file')->fileInput(['class' => 'btn btn-success'])->label(false) ?>
-
-                    </div>
-
-                    <div class="col-xs-6"><br></div>
                 </div>
+
             </div>
-            
-        </div>
-            
-        <div class="col-xs-6">
-            <?= $form->field($model, 'are_notas')->textarea(['maxlength' => true, 'rows' => 5]) ?>
-        </div>
-            
+
+            <div class="col-xs-6">
+                <?= $form->field($model, 'are_notas')->textarea(['maxlength' => true, 'rows' => 5]) ?>
+            </div>
+
         </div>
 
     </div><br>

@@ -141,6 +141,15 @@ return [
     'Select one province' => 'Seleccione una provincia',
     //Cargo
     'Position' => 'Cargo',
+    'Select one area' => 'Seleccione un area',
+    //tipo de competicion
+    'Type of competition' => 'Tipo de competicion',
+    'Rank' => 'Rango',
+    //Licencia
+    'License' => 'Licencia',
+    'Word' => 'Letra',
+    
+    
     
 
     

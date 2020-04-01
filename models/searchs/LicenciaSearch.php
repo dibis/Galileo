@@ -18,7 +18,7 @@ class LicenciaSearch extends Licencia
     {
         return [
             [['li_id', 'lic_rango'], 'integer'],
-            [['lic_nombre', 'lic_letra', 'lic_notas', 'lic_create_at', 'lic_update_at'], 'safe'],
+            [['lic_nombre', 'lic_letra', 'lic_notas', 'lic_create_at', 'lic_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +46,8 @@ class LicenciaSearch extends Licencia
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['lic_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 10]
         ]);
 
         $this->load($params);
@@ -56,17 +58,9 @@ class LicenciaSearch extends Licencia
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'li_id' => $this->li_id,
-            'lic_rango' => $this->lic_rango,
-            'lic_create_at' => $this->lic_create_at,
-            'lic_update_at' => $this->lic_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'lic_nombre', $this->lic_nombre])
-            ->andFilterWhere(['like', 'lic_letra', $this->lic_letra])
-            ->andFilterWhere(['like', 'lic_notas', $this->lic_notas]);
+        $query->orFilterWhere(['like', 'lic_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'lic_letra', $this->globalSearch])
+            ->orFilterWhere(['like', 'lic_rango', $this->globalSearch]);
 
         return $dataProvider;
     }

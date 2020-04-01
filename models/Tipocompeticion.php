@@ -18,6 +18,7 @@ use Yii;
  */
 class Tipocompeticion extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -33,8 +34,9 @@ class Tipocompeticion extends \yii\db\ActiveRecord
     {
         return [
             [['tip_nombre', 'tip_rango'], 'required'],
-            [['tip_nombre', 'tip_rango'], 'integer'],
-            [['tip_create_at', 'tip_update_at'], 'safe'],
+            [['tip_rango'], 'integer'],
+            [['tip_nombre'], 'string', 'max' => 75],    
+            [['tip_create_at', 'tip_update_at', 'globalSearch'], 'safe'],
             [['tip_notas'], 'string', 'max' => 255],
             [['tip_nombre'], 'unique'],
         ];
@@ -46,12 +48,12 @@ class Tipocompeticion extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'tip_id' => Yii::t('app', 'Tip ID'),
-            'tip_nombre' => Yii::t('app', 'Tip Nombre'),
-            'tip_rango' => Yii::t('app', 'Tip Rango'),
-            'tip_notas' => Yii::t('app', 'Tip Notas'),
-            'tip_create_at' => Yii::t('app', 'Tip Create At'),
-            'tip_update_at' => Yii::t('app', 'Tip Update At'),
+            'tip_id' => Yii::t('app', 'Id'),
+            'tip_nombre' => Yii::t('app', 'Type of competition'),
+            'tip_rango' => Yii::t('app', 'Rank'),
+            'tip_notas' => Yii::t('app', 'Notes'),
+            'tip_create_at' => Yii::t('app', 'Create At'),
+            'tip_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

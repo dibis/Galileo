@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Tipocompeticion */
 
-$this->title = Yii::t('app', 'Create Tipocompeticion');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tipocompeticions'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'New').' '.Yii::t('app', 'Type of competition');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Type of competition'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'New').' '.Yii::t('app', 'Type of competition');
 ?>
 <div class="tipocompeticion-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
