@@ -40,7 +40,7 @@ use app\models\Area;
         </div>
     </div>
 
-    <?= $form->field($model, 'car_notas')->textarea(['maxlength' => true, 'rows' => 5]) ?>
+    <?= $form->field($model, 'car_notas')->textarea(['maxlength' => true, 'rows' => 2]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

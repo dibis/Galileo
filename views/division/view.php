@@ -6,37 +6,51 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Division */
 
-$this->title = $model->div_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Divisions'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name . ' - ' . $model->div_nombre;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Division'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->div_nombre;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="division-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($model->div_nombre) ?></h3><br>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->div_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->div_id], [
+        <?=
+        Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->div_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ])
+        ?>
     </p>
-
+    <br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'div_id',
             'div_nombre',
-            'div_licencia',
+            'divLicencia.lic_nombre',
             'div_rango',
             'div_notas',
-            'div_create_at',
-            'div_update_at',
+            [
+                'attribute' => 'div_create_at',
+                'value' => $model->div_create_at,
+                'format' => ['date', 'php: d-m-Y'],
+            ],
+            [
+                'attribute' => 'div_update_at',
+                'value' => $model->div_update_at,
+                'format' => ['date', 'php: d-m-Y'],
+            ],
         ],
     ]) ?>
+
+    <p>
+        <br>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
+    </p>
 
 </div>

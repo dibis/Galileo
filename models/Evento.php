@@ -19,6 +19,8 @@ use Yii;
  */
 class Evento extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -34,7 +36,8 @@ class Evento extends \yii\db\ActiveRecord
     {
         return [
             [['eve_nombre', 'eve_abreviatura'], 'required'],
-            [['eve_create_at', 'eve_update_at'], 'safe'],
+            [['eve_create_at', 'eve_update_at', 'globalSearch', 'file'], 'safe'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['eve_nombre'], 'string', 'max' => 50],
             [['eve_abreviatura'], 'string', 'max' => 3],
             [['eve_imagen', 'eve_descripcion'], 'string', 'max' => 255],
@@ -48,13 +51,13 @@ class Evento extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'eve_id' => Yii::t('app', 'Eve ID'),
-            'eve_nombre' => Yii::t('app', 'Eve Nombre'),
-            'eve_abreviatura' => Yii::t('app', 'Eve Abreviatura'),
-            'eve_imagen' => Yii::t('app', 'Eve Imagen'),
-            'eve_descripcion' => Yii::t('app', 'Eve Descripcion'),
-            'eve_create_at' => Yii::t('app', 'Eve Create At'),
-            'eve_update_at' => Yii::t('app', 'Eve Update At'),
+            'eve_id' => Yii::t('app', 'Id'),
+            'eve_nombre' => Yii::t('app', 'Event'),
+            'eve_abreviatura' => Yii::t('app', 'Abbreviation'),
+            'eve_imagen' => Yii::t('app', 'Image'),
+            'eve_descripcion' => Yii::t('app', 'Notes'),
+            'eve_create_at' => Yii::t('app', 'Create At'),
+            'eve_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

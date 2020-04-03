@@ -18,7 +18,8 @@ class EventoSearch extends Evento
     {
         return [
             [['eve_id'], 'integer'],
-            [['eve_nombre', 'eve_abreviatura', 'eve_imagen', 'eve_descripcion', 'eve_create_at', 'eve_update_at'], 'safe'],
+            [['eve_nombre', 'eve_abreviatura', 'eve_imagen', 'eve_descripcion',
+                'eve_create_at', 'eve_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +47,8 @@ class EventoSearch extends Evento
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['eve_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
         $this->load($params);
@@ -56,17 +59,8 @@ class EventoSearch extends Evento
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'eve_id' => $this->eve_id,
-            'eve_create_at' => $this->eve_create_at,
-            'eve_update_at' => $this->eve_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'eve_nombre', $this->eve_nombre])
-            ->andFilterWhere(['like', 'eve_abreviatura', $this->eve_abreviatura])
-            ->andFilterWhere(['like', 'eve_imagen', $this->eve_imagen])
-            ->andFilterWhere(['like', 'eve_descripcion', $this->eve_descripcion]);
+        $query->orFilterWhere(['like', 'eve_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'eve_abreviatura', $this->globalSearch]);
 
         return $dataProvider;
     }

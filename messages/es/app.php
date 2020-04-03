@@ -148,7 +148,11 @@ return [
     //Licencia
     'License' => 'Licencia',
     'Word' => 'Letra',
-    
+    //Division
+    'Division' => 'División',
+    'Select one license' => 'Seleccione una licencia',
+    //Evento
+    'Event' => 'Evento',
     
     
 

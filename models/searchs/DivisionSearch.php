@@ -9,24 +9,22 @@ use app\models\Division;
 /**
  * DivisionSearch represents the model behind the search form of `app\models\Division`.
  */
-class DivisionSearch extends Division
-{
+class DivisionSearch extends Division {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['div_id', 'div_licencia', 'div_rango'], 'integer'],
-            [['div_nombre', 'div_notas', 'div_create_at', 'div_update_at'], 'safe'],
+            [['div_nombre', 'div_notas', 'div_create_at', 'div_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,16 +36,30 @@ class DivisionSearch extends Division
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Division::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['div_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 10]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'div_nombre',
+                'div_create_at',
+                'div_rango',
+                'divLicencia.lic_nombre' => [
+                    'asc' => ['licencia.lic_nombre' => SORT_ASC,],
+                    'desc' => ['licencia.lic_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'License'),
+                ],
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -56,18 +68,13 @@ class DivisionSearch extends Division
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'div_id' => $this->div_id,
-            'div_licencia' => $this->div_licencia,
-            'div_rango' => $this->div_rango,
-            'div_create_at' => $this->div_create_at,
-            'div_update_at' => $this->div_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'div_nombre', $this->div_nombre])
-            ->andFilterWhere(['like', 'div_notas', $this->div_notas]);
+        $query->joinWith(['divLicencia']);
+        
+        $query->orFilterWhere(['like', 'div_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'licencia.lic_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'div_rango', $this->globalSearch]);
 
         return $dataProvider;
     }
+
 }

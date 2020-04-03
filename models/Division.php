@@ -20,6 +20,7 @@ use Yii;
  */
 class Division extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -34,11 +35,12 @@ class Division extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['div_nombre', 'div_licencia', 'div_notas'], 'required'],
+            [['div_nombre', 'div_licencia'], 'required'],
             [['div_licencia', 'div_rango'], 'integer'],
-            [['div_create_at', 'div_update_at'], 'safe'],
+            [['div_create_at', 'div_update_at', 'globalSearch'], 'safe'],
             [['div_nombre'], 'string', 'max' => 75],
             [['div_notas'], 'string', 'max' => 255],
+            [['div_rango'], 'string', 'max' => 2],
             [['div_nombre', 'div_licencia'], 'unique', 'targetAttribute' => ['div_nombre', 'div_licencia']],
             [['div_licencia'], 'exist', 'skipOnError' => true, 'targetClass' => Licencia::className(), 'targetAttribute' => ['div_licencia' => 'li_id']],
         ];
@@ -50,13 +52,13 @@ class Division extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'div_id' => Yii::t('app', 'Div ID'),
-            'div_nombre' => Yii::t('app', 'Div Nombre'),
-            'div_licencia' => Yii::t('app', 'Div Licencia'),
-            'div_rango' => Yii::t('app', 'Div Rango'),
-            'div_notas' => Yii::t('app', 'Div Notas'),
-            'div_create_at' => Yii::t('app', 'Div Create At'),
-            'div_update_at' => Yii::t('app', 'Div Update At'),
+            'div_id' => Yii::t('app', 'Id'),
+            'div_nombre' => Yii::t('app', 'Division'),
+            'div_licencia' => Yii::t('app', 'License'),
+            'div_rango' => Yii::t('app', 'Rank'),
+            'div_notas' => Yii::t('app', 'Notes'),
+            'div_create_at' => Yii::t('app', 'Create At'),
+            'div_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 
