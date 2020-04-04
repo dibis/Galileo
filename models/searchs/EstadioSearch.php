@@ -18,7 +18,8 @@ class EstadioSearch extends Estadio
     {
         return [
             [['est_id', 'est_ciudad', 'est_aforo'], 'integer'],
-            [['est_nombre', 'est_nombrecorto', 'est_imagen', 'est_datos', 'est_create_at', 'est_update_at'], 'safe'],
+            [['est_nombre', 'est_nombrecorto', 'est_imagen', 'est_datos', 
+                'est_create_at', 'est_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,8 +47,25 @@ class EstadioSearch extends Estadio
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['est_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 10]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'est_nombre',
+                'est_create_at',
+                'est_imagen',
+                'est_aforo',
+                'est_nombrecorto',
+                'estCiudad.ciu_nombre' => [
+                    'asc' => ['ciudad.ciu_nombre' => SORT_ASC,],
+                    'desc' => ['ciudad.ciu_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'City'),
+                ],
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -55,20 +73,13 @@ class EstadioSearch extends Estadio
             // $query->where('0=1');
             return $dataProvider;
         }
+        
+        $query->joinWith(['estCiudad']);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'est_id' => $this->est_id,
-            'est_ciudad' => $this->est_ciudad,
-            'est_aforo' => $this->est_aforo,
-            'est_create_at' => $this->est_create_at,
-            'est_update_at' => $this->est_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'est_nombre', $this->est_nombre])
-            ->andFilterWhere(['like', 'est_nombrecorto', $this->est_nombrecorto])
-            ->andFilterWhere(['like', 'est_imagen', $this->est_imagen])
-            ->andFilterWhere(['like', 'est_datos', $this->est_datos]);
+        $query->orFilterWhere(['like', 'est_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'est_nombrecorto', $this->globalSearch])
+            ->orFilterWhere(['like', 'ciudad.ciu_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'est_aforo', $this->globalSearch]);
 
         return $dataProvider;
     }

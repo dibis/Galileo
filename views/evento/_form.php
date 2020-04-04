@@ -10,22 +10,50 @@ use yii\widgets\ActiveForm;
 
 <div class="evento-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'eve_nombre')->textInput(['maxlength' => true]) ?>
+    <div  class="row">
+        <div class="col-xs-8">
+            <?= $form->field($model, 'eve_nombre')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-xs-4">
+            <?= $form->field($model, 'eve_abreviatura')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+        </div>
+    </div>
+    
+    <br>
+    <div class="panel panel-success ">
+        <div class="panel-heading" style="font-weight:bold;"><?= Yii::t('app', 'Image')?></div>
+        <div class="panel-body">
+            <div class="col-md-1" style="text-align: left"><br>
 
-    <?= $form->field($model, 'eve_abreviatura')->textInput(['maxlength' => true]) ?>
+                    <?php
+                    if ($model->eve_imagen) {
+                        echo '<center>';
+                        echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->eve_imagen . '" width="40px">';
+                        echo '<br><br>';
+                        echo Html::a(Yii::t('app', 'Delete'), ['pais/deletefoto', 'id' => $model->eve_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
+                        echo '</center>'; 
+                    }
+                    ?>
 
-    <?= $form->field($model, 'eve_imagen')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-1"><br></div>
+            <div class="col-md-4" style="text-align: left"><br>
 
-    <?= $form->field($model, 'eve_descripcion')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'file')->fileInput(['class' =>'btn btn-success'])->label(false) ?>
 
-    <?= $form->field($model, 'eve_create_at')->textInput() ?>
+            </div>
 
-    <?= $form->field($model, 'eve_update_at')->textInput() ?>
+            <div class="col-md-1"><br></div>
+        </div>
+        </div>
+
+    <?= $form->field($model, 'eve_descripcion')->textarea(['maxlength' => true, 'rows' => 2]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

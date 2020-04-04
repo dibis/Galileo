@@ -66,10 +66,22 @@ class EstadioController extends Controller
     {
         $model = new Estadio();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->est_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/estadio/';
+                    $model->est_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                
+                if( $model->save()){
+                    if($model->file){
+                        $model->file->saveAs($model->est_imagen);
+                    }
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->est_nombre);
+                    return $this->redirect(['create']);
+                }
 
+            }
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -86,9 +98,24 @@ class EstadioController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->est_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/estadio/';
+                    $model->est_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                
+                if($model->save()){
+                    
+                    if($model->file){
+                        $model->file->saveAs($model->est_imagen);
+                    }
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->est_nombre);
+                    return $this->redirect(['index']);
+                }
+
+            }
 
         return $this->render('update', [
             'model' => $model,
@@ -104,9 +131,25 @@ class EstadioController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->est_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
+    }
+    
+    public function actionDeletefoto($id){
+        $foto = Estadio::find()->where(['est_id'=>$id])->one()->est_imagen;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen = Estadio::findOne($id);
+        $imagen->est_imagen = null;
+        $imagen->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
     }
 
     /**

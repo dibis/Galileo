@@ -22,6 +22,8 @@ use Yii;
  */
 class Estadio extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -38,9 +40,10 @@ class Estadio extends \yii\db\ActiveRecord
         return [
             [['est_nombre', 'est_nombrecorto'], 'required'],
             [['est_ciudad', 'est_aforo'], 'integer'],
-            [['est_create_at', 'est_update_at'], 'safe'],
+            [['est_create_at', 'est_update_at', 'globalSearch', 'file'], 'safe'],
             [['est_nombre'], 'string', 'max' => 150],
             [['est_nombrecorto'], 'string', 'max' => 75],
+            [['est_aforo'], 'string', 'max' => 5],
             [['est_imagen', 'est_datos'], 'string', 'max' => 255],
             [['est_nombre', 'est_ciudad'], 'unique', 'targetAttribute' => ['est_nombre', 'est_ciudad']],
             [['est_ciudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['est_ciudad' => 'ciu_id']],
@@ -53,15 +56,15 @@ class Estadio extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'est_id' => Yii::t('app', 'Est ID'),
-            'est_nombre' => Yii::t('app', 'Est Nombre'),
-            'est_nombrecorto' => Yii::t('app', 'Est Nombrecorto'),
-            'est_ciudad' => Yii::t('app', 'Est Ciudad'),
-            'est_aforo' => Yii::t('app', 'Est Aforo'),
-            'est_imagen' => Yii::t('app', 'Est Imagen'),
-            'est_datos' => Yii::t('app', 'Est Datos'),
-            'est_create_at' => Yii::t('app', 'Est Create At'),
-            'est_update_at' => Yii::t('app', 'Est Update At'),
+            'est_id' => Yii::t('app', 'Id'),
+            'est_nombre' => Yii::t('app', 'Stadium'),
+            'est_nombrecorto' => Yii::t('app', 'Short name'),
+            'est_ciudad' => Yii::t('app', 'City'),
+            'est_aforo' => Yii::t('app', 'Capacity'),
+            'est_imagen' => Yii::t('app', 'Image'),
+            'est_datos' => Yii::t('app', 'Notes'),
+            'est_create_at' => Yii::t('app', 'Create At'),
+            'est_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

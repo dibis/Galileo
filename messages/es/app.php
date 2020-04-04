@@ -153,6 +153,10 @@ return [
     'Select one license' => 'Seleccione una licencia',
     //Evento
     'Event' => 'Evento',
+    //Estadio
+    'Stadium' => 'Estadio',
+    'Short name' => 'Nombre corto',
+    'Capacity' => 'Aforo',
     
     
 

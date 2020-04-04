@@ -7,38 +7,98 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\searchs\EstadioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Estadios');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'Management of').' '.Yii::t('app', 'Stadium');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Stadium');
 ?>
 <div class="estadio-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+    <div class="inline">
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Estadio'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <div class="col-xs-3">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?= Html::a(Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
 
-    <?= GridView::widget([
+        </div>
+
+        <div class="col-xs-5"></div>
+
+        <div class="col-xs-4">
+
+            <?php
+            echo $this->render('//site/interface/_search', ['model' => $searchModel]);
+            ?> 
+
+        </div>
+
+        <div style="clear: both"></div>
+
+    </div><br>
+
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-striped'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'est_id',
             'est_nombre',
             'est_nombrecorto',
-            'est_ciudad',
+            'estCiudad.ciu_nombre',
             'est_aforo',
-            //'est_imagen',
-            //'est_datos',
-            //'est_create_at',
-            //'est_update_at',
+            [
+                'attribute' => 'est_imagen',
+                'value' => function ($model) {
+                    if (!empty($model->est_imagen)) {
+                        return $model->est_imagen;
+                    } else {
+                        return "uploads/estadio/nodefinido.jpg";
+                    }
+                },
+                'format' => ['image', ['height' => '25', 'width' => '35']],
+            ],
+            [
+                'attribute' => 'est_create_at',
+                'value' => 'est_create_at',
+                'format' => ['date', 'php: d-m-Y'],
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'width:240px;'],
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    //view button
+                    'view' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>'.' '. Yii::t('app', 'View'), $url,
+                                        ['title' => Yii::t('app', 'View'), 'class' => 'btn btn-primary btn-xs',]);
+                    },
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>'.' '. Yii::t('app', 'Update'), $url,
+                                        ['title' => Yii::t('app', 'Update'), 'class' => 'btn btn-warning btn-xs',]);
+                    },
+                    'delete' => function($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>'.' '. Yii::t('app', 'Delete'), ['delete', 'id' => $model->est_id], [
+                                    'class' => 'btn btn-danger btn-xs',
+                                    'data' => [
+                                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                        'method' => 'post',
+                                    ],
+                        ]);
+                    }
+                ],
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action === 'view') {
+                        $url = \yii\helpers\Url::toRoute(['estadio/view', 'id' => $key]);
+                        return $url;
+                    } elseif ($action === 'update') {
+                        $url = \yii\helpers\Url::toRoute(['estadio/update', 'id' => $key]);
+                        return $url;
+                    }
+                }
+            ],
         ],
-    ]); ?>
-
-
+        'tableOptions' => ['class' => 'table table-striped'],
+    ]);
+    ?>
 </div>
+
