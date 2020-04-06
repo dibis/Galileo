@@ -19,6 +19,8 @@ use Yii;
  */
 class Reconocimiento extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -35,6 +37,8 @@ class Reconocimiento extends \yii\db\ActiveRecord
         return [
             [['rec_nombre'], 'required'],
             [['rec_create_at', 'rec_update_at'], 'safe'],
+            [['globalSearch', 'file'], 'safe'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['rec_nombre'], 'string', 'max' => 75],
             [['rec_abreviatura'], 'string', 'max' => 3],
             [['rec_imagen', 'rec_notas'], 'string', 'max' => 255],
@@ -48,13 +52,13 @@ class Reconocimiento extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'rec_id' => Yii::t('app', 'Rec ID'),
-            'rec_nombre' => Yii::t('app', 'Rec Nombre'),
-            'rec_abreviatura' => Yii::t('app', 'Rec Abreviatura'),
-            'rec_imagen' => Yii::t('app', 'Rec Imagen'),
-            'rec_notas' => Yii::t('app', 'Rec Notas'),
-            'rec_create_at' => Yii::t('app', 'Rec Create At'),
-            'rec_update_at' => Yii::t('app', 'Rec Update At'),
+            'rec_id' => Yii::t('app', 'Id'),
+            'rec_nombre' => Yii::t('app', 'Acknowledgment'),
+            'rec_abreviatura' => Yii::t('app', 'Abbreviation'),
+            'rec_imagen' => Yii::t('app', 'Image'),
+            'rec_notas' => Yii::t('app', 'Notes'),
+            'rec_create_at' => Yii::t('app', 'Create At'),
+            'rec_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

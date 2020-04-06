@@ -157,7 +157,16 @@ return [
     'Stadium' => 'Estadio',
     'Short name' => 'Nombre corto',
     'Capacity' => 'Aforo',
-    
+    'Select one city' => 'Seleccione una ciudad',
+    //Temporada
+    'Start' => 'Inicio',
+    'End' => 'Final',
+    'Active' => 'Activa',
+    'Season' => 'Temporada',
+    'Select start year' => 'Seleccione el año de inicio',
+    'Select the final year' => 'Seleccione el año final',
+    //Reconocimiento
+    'Acknowledgment' => 'Reconocimiento',
     
 
     

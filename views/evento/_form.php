@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
                         echo '<center>';
                         echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->eve_imagen . '" width="40px">';
                         echo '<br><br>';
-                        echo Html::a(Yii::t('app', 'Delete'), ['pais/deletefoto', 'id' => $model->eve_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
+                        echo Html::a(Yii::t('app', 'Delete'), ['evento/deletefoto', 'id' => $model->eve_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
                         echo '</center>'; 
                     }
                     ?>

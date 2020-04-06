@@ -25,6 +25,7 @@ use Yii;
  */
 class Persona extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -41,7 +42,7 @@ class Persona extends \yii\db\ActiveRecord
         return [
             [['per_nombre', 'per_apellidos'], 'required'],
             [['per_genero', 'per_localidad', 'per_fallecido'], 'integer'],
-            [['per_fechanacim', 'per_create_at', 'per_update_at'], 'safe'],
+            [['per_fechanacim', 'per_create_at', 'per_update_at', 'globalSearch'], 'safe'],
             [['per_nombre'], 'string', 'max' => 100],
             [['per_apellidos'], 'string', 'max' => 150],
             [['per_apodo'], 'string', 'max' => 40],

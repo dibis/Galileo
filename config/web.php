@@ -24,11 +24,10 @@ $config = [
             'thousandSeparator' => '.',
             'decimalSeparator' => ',',
             'currencyCode' => 'EUR',
-            //'dateFormat' => 'dd-MM-yyyy',
             'booleanFormat' => [
-                '<span style="color:red"><i class="glyphicon glyphicon-remove"></i></span>',
-                '<span style="color:green"><i class="glyphicon glyphicon-ok"></i></span>'
-            ],
+                '<span class="glyphicon glyphicon-remove"></span> No',
+                '<span class="glyphicon glyphicon-ok"></span> Yes'
+            ]
         ],
         'i18n' => [
             'translations' => [

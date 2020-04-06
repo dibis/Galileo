@@ -18,7 +18,7 @@ class TemporadaSearch extends Temporada
     {
         return [
             [['tem_id', 'tem_activa'], 'integer'],
-            [['tem_inicio', 'tem_final', 'tem_create_at', 'tem_update_at'], 'safe'],
+            [['tem_inicio', 'tem_final', 'tem_create_at', 'tem_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +46,8 @@ class TemporadaSearch extends Temporada
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['tem_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
         $this->load($params);
@@ -55,16 +57,9 @@ class TemporadaSearch extends Temporada
             // $query->where('0=1');
             return $dataProvider;
         }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'tem_id' => $this->tem_id,
-            'tem_inicio' => $this->tem_inicio,
-            'tem_final' => $this->tem_final,
-            'tem_activa' => $this->tem_activa,
-            'tem_create_at' => $this->tem_create_at,
-            'tem_update_at' => $this->tem_update_at,
-        ]);
+        
+        $query->orFilterWhere(['like', 'tem_inicio', $this->globalSearch])
+            ->orFilterWhere(['like', 'tem_final', $this->globalSearch]);
 
         return $dataProvider;
     }

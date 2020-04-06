@@ -18,7 +18,8 @@ class ReconocimientoSearch extends Reconocimiento
     {
         return [
             [['rec_id'], 'integer'],
-            [['rec_nombre', 'rec_abreviatura', 'rec_imagen', 'rec_notas', 'rec_create_at', 'rec_update_at'], 'safe'],
+            [['rec_nombre', 'rec_abreviatura', 'rec_imagen', 'rec_notas',
+                'rec_create_at', 'rec_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +47,8 @@ class ReconocimientoSearch extends Reconocimiento
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['rec_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
         $this->load($params);
@@ -56,17 +59,8 @@ class ReconocimientoSearch extends Reconocimiento
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'rec_id' => $this->rec_id,
-            'rec_create_at' => $this->rec_create_at,
-            'rec_update_at' => $this->rec_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'rec_nombre', $this->rec_nombre])
-            ->andFilterWhere(['like', 'rec_abreviatura', $this->rec_abreviatura])
-            ->andFilterWhere(['like', 'rec_imagen', $this->rec_imagen])
-            ->andFilterWhere(['like', 'rec_notas', $this->rec_notas]);
+        $query->orFilterWhere(['like', 'rec_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'rec_abreviatura', $this->globalSearch]);
 
         return $dataProvider;
     }

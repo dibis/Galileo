@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
                                 echo '<center>';
                                 echo '<img src="' . \Yii::$app->request->baseUrl . '/' . $model->are_imagen . '" width="40px">';
                                 echo '<br><br>';
-                                echo Html::a(Yii::t('app', 'Delete'), ['pais/deletefoto', 'id' => $model->are_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
+                                echo Html::a(Yii::t('app', 'Delete'), ['area/deletefoto', 'id' => $model->are_id], ['class' => 'btn btn-xs btn-danger']) . '<p>';
                                 echo '</center>';
                             }
                             ?>
@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
             </div>
 
             <div class="col-xs-6">
-                <?= $form->field($model, 'are_notas')->textarea(['maxlength' => true, 'rows' => 5]) ?>
+                <?= $form->field($model, 'are_notas')->textarea(['maxlength' => true, 'rows' => 2]) ?>
             </div>
 
         </div>

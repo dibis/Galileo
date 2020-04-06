@@ -28,6 +28,16 @@ $config = [
                 ],
             ],
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            'currencyCode' => 'EUR',
+            'booleanFormat' => [
+                '<span class="glyphicon glyphicon-remove"></span> No',
+                '<span class="glyphicon glyphicon-ok"></span> Yes'
+            ]
+        ],
         'db' => $db,
     ],
     'params' => $params,

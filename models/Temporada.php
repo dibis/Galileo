@@ -24,6 +24,7 @@ use Yii;
  */
 class Temporada extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -39,8 +40,10 @@ class Temporada extends \yii\db\ActiveRecord
     {
         return [
             [['tem_inicio', 'tem_final'], 'required'],
-            [['tem_inicio', 'tem_final', 'tem_create_at', 'tem_update_at'], 'safe'],
+            [['tem_inicio', 'tem_final', 'tem_create_at', 'tem_update_at', 'globalSearch'], 'safe'],
             [['tem_activa'], 'integer'],
+            [['tem_inicio', 'tem_final'], 'integer'],
+            [['tem_inicio', 'tem_final'], 'string', 'max' => 4],
             [['tem_inicio', 'tem_final'], 'unique', 'targetAttribute' => ['tem_inicio', 'tem_final']],
         ];
     }
@@ -51,12 +54,12 @@ class Temporada extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'tem_id' => Yii::t('app', 'Tem ID'),
-            'tem_inicio' => Yii::t('app', 'Tem Inicio'),
-            'tem_final' => Yii::t('app', 'Tem Final'),
-            'tem_activa' => Yii::t('app', 'Tem Activa'),
-            'tem_create_at' => Yii::t('app', 'Tem Create At'),
-            'tem_update_at' => Yii::t('app', 'Tem Update At'),
+            'tem_id' => Yii::t('app', 'Id'),
+            'tem_inicio' => Yii::t('app', 'Start'),
+            'tem_final' => Yii::t('app', 'End'),
+            'tem_activa' => Yii::t('app', 'Active'),
+            'tem_create_at' => Yii::t('app', 'Create At'),
+            'tem_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

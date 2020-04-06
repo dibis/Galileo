@@ -66,9 +66,24 @@ class ReconocimientoController extends Controller
     {
         $model = new Reconocimiento();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->rec_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/reconocimiento/';
+                    $model->rec_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                $mayusculas = $model->rec_abreviatura;
+                $model->rec_abreviatura = strtoupper($mayusculas);
+                
+                if( $model->save()){
+                    if($model->file){
+                        $model->file->saveAs($model->rec_imagen);
+                    }
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->rec_nombre);
+                    return $this->redirect(['create']);
+                }
+
+            }
 
         return $this->render('create', [
             'model' => $model,
@@ -86,9 +101,27 @@ class ReconocimientoController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->rec_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/reconocimiento/';
+                    $model->rec_imagen = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                
+                $mayusculas = $model->rec_abreviatura;
+                $model->rec_abreviatura = strtoupper($mayusculas);
+                
+                if($model->save()){
+                    
+                    if($model->file){
+                        $model->file->saveAs($model->rec_imagen);
+                    }
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->rec_nombre);
+                    return $this->redirect(['index']);
+                }
+
+            }
 
         return $this->render('update', [
             'model' => $model,
@@ -104,9 +137,25 @@ class ReconocimientoController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->rec_nombre;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
+    }
+    
+    public function actionDeletefoto($id){
+        $foto = Reconocimiento::find()->where(['are_id'=>$id])->one()->rec_imagen;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen = Reconocimiento::findOne($id);
+        $imagen->rec_imagen = null;
+        $imagen->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
     }
 
     /**

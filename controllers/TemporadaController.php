@@ -67,7 +67,8 @@ class TemporadaController extends Controller
         $model = new Temporada();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->tem_id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->tem_inicio.' - '.$model->tem_final);
+            return $this->redirect(['create']);
         }
 
         return $this->render('create', [
@@ -87,7 +88,8 @@ class TemporadaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->tem_id]);
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->tem_inicio.' - '.$model->tem_final);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -104,8 +106,9 @@ class TemporadaController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->tem_inicio.' - '.$this->findModel($id)->tem_final;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 
