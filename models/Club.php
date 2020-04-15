@@ -32,6 +32,9 @@ use Yii;
  */
 class Club extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
+    public $file2;
     /**
      * {@inheritdoc}
      */
@@ -46,13 +49,18 @@ class Club extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['clu_nombre'], 'required'],
-            [['clu_nombre', 'clu_propio', 'clu_codigofex', 'clu_ciudad', 'clu_desaparecido'], 'integer'],
-            [['clu_anofundacion', 'clu_anodesaparicion', 'clu_create_at', 'clu_update_at'], 'safe'],
+            [['clu_nombre', 'clu_nomcorto'], 'required'],
+            [['clu_propio', 'clu_codigofex', 'clu_ciudad', 'clu_desaparecido'], 'integer'],
+            [['clu_anofundacion', 'clu_anodesaparicion', 'clu_create_at',
+                'clu_update_at'], 'safe'],
+            [['globalSearch', 'file', 'file2'], 'safe'],
+            [['file', 'file2'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['clu_datos'], 'string'],
             [['clu_nomcorto'], 'string', 'max' => 20],
+            //[['clu_codigofex'], 'string', 'max' => 5], Esto da error con las imagenes
             [['clu_escudo', 'clu_imageequipac'], 'string', 'max' => 255],
             [['clu_direccion', 'clu_equipacion'], 'string', 'max' => 150],
+            [['clu_datos'], 'string', 'max' => 1000],
             [['clu_nombre'], 'unique'],
             [['clu_ciudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['clu_ciudad' => 'ciu_id']],
         ];
@@ -64,22 +72,23 @@ class Club extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'clu_id' => Yii::t('app', 'Clu ID'),
-            'clu_nombre' => Yii::t('app', 'Clu Nombre'),
-            'clu_nomcorto' => Yii::t('app', 'Clu Nomcorto'),
-            'clu_propio' => Yii::t('app', 'Clu Propio'),
-            'clu_codigofex' => Yii::t('app', 'Clu Codigofex'),
-            'clu_escudo' => Yii::t('app', 'Clu Escudo'),
-            'clu_ciudad' => Yii::t('app', 'Clu Ciudad'),
-            'clu_direccion' => Yii::t('app', 'Clu Direccion'),
-            'clu_anofundacion' => Yii::t('app', 'Clu Anofundacion'),
-            'clu_desaparecido' => Yii::t('app', 'Clu Desaparecido'),
-            'clu_anodesaparicion' => Yii::t('app', 'Clu Anodesaparicion'),
-            'clu_datos' => Yii::t('app', 'Clu Datos'),
-            'clu_equipacion' => Yii::t('app', 'Clu Equipacion'),
-            'clu_imageequipac' => Yii::t('app', 'Clu Imageequipac'),
-            'clu_create_at' => Yii::t('app', 'Clu Create At'),
-            'clu_update_at' => Yii::t('app', 'Clu Update At'),
+            'clu_id' => Yii::t('app', 'Id'),
+            'clu_nombre' => Yii::t('app', 'Club'),
+            'clu_nomcorto' => Yii::t('app', 'Short name'),
+            'clu_propio' => Yii::t('app', 'Own'),
+            'clu_codigofex' => Yii::t('app', 'Code FEX'),
+            'clu_escudo' => Yii::t('app', 'Emblem'),
+            'clu_ciudad' => Yii::t('app', 'City'),
+            'clu_direccion' => Yii::t('app', 'Address'),
+            'clu_anofundacion' => Yii::t('app', 'Foundation year'),
+            'clu_desaparecido' => Yii::t('app', 'Extinct'),
+            'clu_anodesaparicion' => Yii::t('app', 'Extinct year'),
+            'clu_datos' => Yii::t('app', 'Dates'),
+            'clu_equipacion' => Yii::t('app', 'Equipement'),
+            'clu_imageequipac' => Yii::t('app', 'Equipement Image'),
+            'clu_datos' => Yii::t('app', 'Notes'),
+            'clu_create_at' => Yii::t('app', 'Create At'),
+            'clu_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

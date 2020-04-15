@@ -37,7 +37,7 @@ class Region extends \yii\db\ActiveRecord
         return [
             [['reg_nombre', 'reg_pais'], 'required'],
             [['reg_pais'], 'integer'],
-            [['reg_create_at', 'reg_update_at', 'globalSearch',], 'safe'],
+            [['reg_create_at', 'reg_update_at', 'globalSearch','file'], 'safe'],
             [['reg_nombre'], 'string', 'max' => 75],
             [['reg_bandera'], 'string', 'max' => 255],
             [['reg_nombre'], 'unique'],

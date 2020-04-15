@@ -41,7 +41,7 @@ class Licencia extends \yii\db\ActiveRecord
             [['lic_create_at', 'lic_update_at', 'globalSearch'], 'safe'],
             [['lic_nombre'], 'string', 'max' => 60],
             [['lic_letra'], 'string', 'max' => 3],
-            [['lic_rango'], 'string', 'max' => 2],
+            //[['lic_rango'], 'string', 'max' => 2],
             [['lic_notas'], 'string', 'max' => 255],
             [['lic_nombre'], 'unique'],
             [['lic_letra'], 'unique'],

@@ -167,7 +167,30 @@ return [
     'Select the final year' => 'Seleccione el año final',
     //Reconocimiento
     'Acknowledgment' => 'Reconocimiento',
-    
-
+    //Persona
+    'Surnames' => 'Apellidos',
+    'Woman' => 'Mujer',
+    'Nick' => 'Apodo',
+    'Date of birth' => 'Fecha nacimiento',
+    'Dead' => 'Fallecido',
+    'General picture' => 'Imagen general',
+    'Person' => 'Persona',
+    'Select a date. Example 1970-01-12' => 'Selecione una fecha. Ejemplo 1970-01-12',
+    'Genre' => 'Género',
+    //Club
+    'Club' => 'Club',
+    'Short name' => 'Nombre Corto',
+    'Own' => 'Propio',
+    'Code FEX' => 'Código FEX',
+    'Emblem' => 'Escudo',
+    'Address' => 'Dirección',
+    'Foundation year' => 'Año fundación',
+    'Extinct' => 'Desaparecido',
+    'Extinct year' => 'Año desaparición',
+    'Equipement' => 'Equipación',
+    'Equipement Image' => 'Imagen equipación',
+    'Club dates' => 'Datos del club',
+    'Emblems' => 'Emblemas del club',
+    'With text' => 'Con texto',
     
 ];

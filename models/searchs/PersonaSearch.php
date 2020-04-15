@@ -18,7 +18,8 @@ class PersonaSearch extends Persona
     {
         return [
             [['per_id', 'per_genero', 'per_localidad', 'per_fallecido'], 'integer'],
-            [['per_nombre', 'per_apellidos', 'per_apodo', 'per_fechanacim', 'per_imagengeneral', 'per_notas', 'per_create_at', 'per_update_at'], 'safe'],
+            [['per_nombre', 'per_apellidos', 'per_apodo', 'per_fechanacim',
+                'per_imagengeneral', 'per_notas', 'per_create_at', 'per_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,8 +47,28 @@ class PersonaSearch extends Persona
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['per_create_at' => SORT_ASC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'per_nombre',
+                'per_apellidos',
+                'per_apodo',
+                'per_fechanacim',
+                'per_fallecido',
+                'per_genero',
+                'per_imagengeneral',
+                'per_create_at',
+                'perLocalidad.ciu_nombre' => [
+                    'asc' => ['ciudad.ciu_nombre' => SORT_ASC,],
+                    'desc' => ['ciudad.ciu_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'City'),
+                ],
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -55,23 +76,14 @@ class PersonaSearch extends Persona
             // $query->where('0=1');
             return $dataProvider;
         }
+        
+        $query->joinWith(['perLocalidad']);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'per_id' => $this->per_id,
-            'per_genero' => $this->per_genero,
-            'per_fechanacim' => $this->per_fechanacim,
-            'per_localidad' => $this->per_localidad,
-            'per_fallecido' => $this->per_fallecido,
-            'per_create_at' => $this->per_create_at,
-            'per_update_at' => $this->per_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'per_nombre', $this->per_nombre])
-            ->andFilterWhere(['like', 'per_apellidos', $this->per_apellidos])
-            ->andFilterWhere(['like', 'per_apodo', $this->per_apodo])
-            ->andFilterWhere(['like', 'per_imagengeneral', $this->per_imagengeneral])
-            ->andFilterWhere(['like', 'per_notas', $this->per_notas]);
+        $query->orFilterWhere(['like', 'per_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'per_apellidos', $this->globalSearch])
+            ->orFilterWhere(['like', 'per_apodo', $this->globalSearch])
+            ->orFilterWhere(['like', 'ciudad.ciu_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'per_fechanacim', $this->globalSearch]);
 
         return $dataProvider;
     }

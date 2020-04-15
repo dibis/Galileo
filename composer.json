@@ -30,7 +30,8 @@
 	"raoul2000/yii2-bootswatch-asset": "*",
         "loveorigami/yii2-notification-wrapper": "*",
         "lavrentiev/yii2-toastr": "dev-master",
-        "rmrevin/yii2-fontawesome": "2.10.*"
+        "rmrevin/yii2-fontawesome": "2.10.*",
+        "zhuravljov/yii2-datetime-widgets" : "~1.1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

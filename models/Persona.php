@@ -22,10 +22,12 @@ use Yii;
  *
  * @property Homenaje[] $homenajes
  * @property Personacargo[] $personacargos
+ * @property Ciudad $perLocalidad
  */
 class Persona extends \yii\db\ActiveRecord
 {
     public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -42,7 +44,9 @@ class Persona extends \yii\db\ActiveRecord
         return [
             [['per_nombre', 'per_apellidos'], 'required'],
             [['per_genero', 'per_localidad', 'per_fallecido'], 'integer'],
-            [['per_fechanacim', 'per_create_at', 'per_update_at', 'globalSearch'], 'safe'],
+            [['per_fechanacim', 'per_create_at', 'per_update_at', 'globalSearch', 'file'], 'safe'],
+            //[['per_fechanacim'], 'date', 'format' => 'php:d-m-Y'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['per_nombre'], 'string', 'max' => 100],
             [['per_apellidos'], 'string', 'max' => 150],
             [['per_apodo'], 'string', 'max' => 40],
@@ -57,18 +61,18 @@ class Persona extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'per_id' => Yii::t('app', 'Per ID'),
-            'per_nombre' => Yii::t('app', 'Per Nombre'),
-            'per_apellidos' => Yii::t('app', 'Per Apellidos'),
-            'per_genero' => Yii::t('app', 'Per Genero'),
-            'per_apodo' => Yii::t('app', 'Per Apodo'),
-            'per_fechanacim' => Yii::t('app', 'Per Fechanacim'),
-            'per_localidad' => Yii::t('app', 'Per Localidad'),
-            'per_fallecido' => Yii::t('app', 'Per Fallecido'),
-            'per_imagengeneral' => Yii::t('app', 'Per Imagengeneral'),
-            'per_notas' => Yii::t('app', 'Per Notas'),
-            'per_create_at' => Yii::t('app', 'Per Create At'),
-            'per_update_at' => Yii::t('app', 'Per Update At'),
+            'per_id' => Yii::t('app', 'Id'),
+            'per_nombre' => Yii::t('app', 'Name'),
+            'per_apellidos' => Yii::t('app', 'Surnames'),
+            'per_genero' => Yii::t('app', 'Woman'),
+            'per_apodo' => Yii::t('app', 'Nick'),
+            'per_fechanacim' => Yii::t('app', 'Date of birth'),
+            'per_localidad' => Yii::t('app', 'City'),
+            'per_fallecido' => Yii::t('app', 'Dead'),
+            'per_imagengeneral' => Yii::t('app', 'General picture'),
+            'per_notas' => Yii::t('app', 'Notes'),
+            'per_create_at' => Yii::t('app', 'Create At'),
+            'per_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 
@@ -87,4 +91,10 @@ class Persona extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Personacargo::className(), ['pec_persona' => 'per_id']);
     }
+    
+    public function getPerLocalidad()
+    {
+        return $this->hasOne(Ciudad::className(), ['ciu_id' => 'per_localidad']);
+    }
+    
 }

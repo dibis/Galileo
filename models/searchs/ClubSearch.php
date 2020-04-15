@@ -9,24 +9,25 @@ use app\models\Club;
 /**
  * ClubSearch represents the model behind the search form of `app\models\Club`.
  */
-class ClubSearch extends Club
-{
+class ClubSearch extends Club {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['clu_id', 'clu_nombre', 'clu_propio', 'clu_codigofex', 'clu_ciudad', 'clu_desaparecido'], 'integer'],
-            [['clu_nomcorto', 'clu_escudo', 'clu_direccion', 'clu_anofundacion', 'clu_anodesaparicion', 'clu_datos', 'clu_equipacion', 'clu_imageequipac', 'clu_create_at', 'clu_update_at'], 'safe'],
+            [['clu_id', 'clu_nombre', 'clu_propio', 'clu_codigofex', 'clu_ciudad',
+            'clu_desaparecido'], 'integer'],
+            [['globalSearch', 'clu_nomcorto', 'clu_escudo', 'clu_direccion',
+            'clu_anofundacion', 'clu_anodesaparicion', 'clu_datos', 'clu_equipacion',
+            'clu_imageequipac', 'clu_create_at', 'clu_update_at'], 'safe'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,16 +39,37 @@ class ClubSearch extends Club
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Club::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['clu_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 10]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'clu_escudo',
+                'clu_nombre',
+                'clu_nomcorto',
+                'clu_imageequipac',
+                'clu_desaparecido',
+                'clu_propio',
+                'clu_codigofex',
+                'clu_direccion',
+                'clu_anofundacion',
+                'clu_anodesaparicion',
+                'cluCiudad.ciu_nombre' => [
+                    'asc' => ['ciudad.ciu_nombre' => SORT_ASC,],
+                    'desc' => ['ciudad.ciu_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'City'),
+                ],
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -55,28 +77,19 @@ class ClubSearch extends Club
             // $query->where('0=1');
             return $dataProvider;
         }
+        
+        $query->joinWith(['cluCiudad']);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'clu_id' => $this->clu_id,
-            'clu_nombre' => $this->clu_nombre,
-            'clu_propio' => $this->clu_propio,
-            'clu_codigofex' => $this->clu_codigofex,
-            'clu_ciudad' => $this->clu_ciudad,
-            'clu_anofundacion' => $this->clu_anofundacion,
-            'clu_desaparecido' => $this->clu_desaparecido,
-            'clu_anodesaparicion' => $this->clu_anodesaparicion,
-            'clu_create_at' => $this->clu_create_at,
-            'clu_update_at' => $this->clu_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'clu_nomcorto', $this->clu_nomcorto])
-            ->andFilterWhere(['like', 'clu_escudo', $this->clu_escudo])
-            ->andFilterWhere(['like', 'clu_direccion', $this->clu_direccion])
-            ->andFilterWhere(['like', 'clu_datos', $this->clu_datos])
-            ->andFilterWhere(['like', 'clu_equipacion', $this->clu_equipacion])
-            ->andFilterWhere(['like', 'clu_imageequipac', $this->clu_imageequipac]);
+        $query->orFilterWhere(['like', 'clu_nomcorto', $this->globalSearch])
+                ->orFilterWhere(['like', 'clu_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'clu_propio', $this->globalSearch])
+                ->orFilterWhere(['like', 'clu_codigofex', $this->globalSearch])
+                ->orFilterWhere(['like', 'ciudad.ciu_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'clu_direccion', $this->globalSearch])
+                ->orFilterWhere(['like', 'clu_anofundacion', $this->globalSearch])
+                ->orFilterWhere(['like', 'clu_anodesaparicion', $this->globalSearch]);
 
         return $dataProvider;
     }
+
 }

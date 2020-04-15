@@ -38,7 +38,7 @@ class Area extends \yii\db\ActiveRecord
         return [
             [['are_nombre', 'are_abreviatura'], 'required'],
             [['are_nivel'], 'integer'],
-            [['are_create_at', 'are_update_at', 'globalSearch'], 'safe'],
+            [['are_create_at', 'are_update_at', 'globalSearch', 'file'], 'safe'],
             [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['are_nombre'], 'string', 'max' => 60],
             [['are_abreviatura'], 'string', 'max' => 3],

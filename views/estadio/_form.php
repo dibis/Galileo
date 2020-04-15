@@ -5,7 +5,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Modal;
 use app\models\Ciudad;
 
 /* @var $this yii\web\View */
@@ -36,7 +35,7 @@ use app\models\Ciudad;
             ?>
         </div>
         <div class="col-xs-2">
-            <?= $form->field($model, 'est_aforo')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'est_aforo')->textInput(['type' => 'text', 'maxlength' => 5]) ?>
         </div>
     </div>
 

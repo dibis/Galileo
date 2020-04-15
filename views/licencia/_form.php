@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'lic_letra')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
         </div>
         <div class="col-xs-6">
-            <?= $form->field($model, 'lic_rango')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'lic_rango')->textInput(['type' => 'text', 'maxlength' => 5]) ?>
         </div>
     </div>
 
