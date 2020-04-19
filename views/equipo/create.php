@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Equipo */
 
-$this->title = Yii::t('app', 'Create Equipo');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Equipos'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::$app->name.' - '.Yii::t('app', 'New').' '.Yii::t('app', 'Team');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Team'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'New').' '.Yii::t('app', 'Team');
 ?>
 <div class="equipo-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

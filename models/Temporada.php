@@ -21,6 +21,7 @@ use Yii;
  * @property Estadioclub[] $estadioclubs0
  * @property Homenaje[] $homenajes
  * @property Personacargo[] $personacargos
+ * @property Temporada $temporadacompleta
  */
 class Temporada extends \yii\db\ActiveRecord
 {
@@ -118,4 +119,13 @@ class Temporada extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Personacargo::className(), ['pec_temporada' => 'tem_id']);
     }
+    
+    
+    public function getTemporadacompleta()
+    {
+        $completo = $this->tem_inicio." - ".$this->tem_final;
+        return $completo;
+    }
+    
+    
 }

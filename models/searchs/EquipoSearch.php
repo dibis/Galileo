@@ -18,7 +18,7 @@ class EquipoSearch extends Equipo
     {
         return [
             [['equ_id', 'equ_club', 'equ_licencia', 'equ_propio'], 'integer'],
-            [['equ_nomcorto', 'equ_datos', 'equ_create_at', 'equ_update_at'], 'safe'],
+            [['equ_nomcorto', 'equ_datos', 'equ_create_at', 'equ_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,8 +46,32 @@ class EquipoSearch extends Equipo
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['equ_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 15]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'equ_propio',
+                'equ_nomcorto',
+                'equClub.clu_escudo' => [
+                    'asc' => ['club.clu_escudo' => SORT_ASC,],
+                    'desc' => ['club.clu_escudo' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Emblem'),
+                ],
+                'equClub.clu_nombre' => [
+                    'asc' => ['club.clu_nombre' => SORT_ASC,],
+                    'desc' => ['club.clu_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Club'),
+                ],
+                'equLicencia.lic_nombre' => [
+                    'asc' => ['licencia.lic_nombre' => SORT_ASC,],
+                    'desc' => ['licencia.lic_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'License'),
+                ],
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -56,18 +80,13 @@ class EquipoSearch extends Equipo
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'equ_id' => $this->equ_id,
-            'equ_club' => $this->equ_club,
-            'equ_licencia' => $this->equ_licencia,
-            'equ_propio' => $this->equ_propio,
-            'equ_create_at' => $this->equ_create_at,
-            'equ_update_at' => $this->equ_update_at,
-        ]);
+        $query->joinWith(['equClub']);
+        $query->joinWith(['equLicencia']);
 
-        $query->andFilterWhere(['like', 'equ_nomcorto', $this->equ_nomcorto])
-            ->andFilterWhere(['like', 'equ_datos', $this->equ_datos]);
+        $query->orFilterWhere(['like', 'equ_nomcorto', $this->globalSearch])
+            ->orFilterWhere(['like', 'club.clu_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'equ_propio', $this->globalSearch])
+            ->orFilterWhere(['like', 'licencia.lic_nombre', $this->globalSearch]);
 
         return $dataProvider;
     }

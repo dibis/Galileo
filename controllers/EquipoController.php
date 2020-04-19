@@ -67,7 +67,8 @@ class EquipoController extends Controller
         $model = new Equipo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->equ_id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->equ_nomcorto);
+            return $this->redirect(['create']);
         }
 
         return $this->render('create', [
@@ -87,7 +88,8 @@ class EquipoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->equ_id]);
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->equ_nomcorto);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -104,8 +106,9 @@ class EquipoController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->equ_nomcorto;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 

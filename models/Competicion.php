@@ -32,6 +32,8 @@ use Yii;
  */
 class Competicion extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -46,17 +48,25 @@ class Competicion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['com_nombre', 'com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_division', 'com_numeroequipos'], 'required'],
-            [['com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_division', 'com_numeroequipos'], 'integer'],
-            [['com_create_at', 'com_update_at'], 'safe'],
-            [['com_nombre'], 'string', 'max' => 150],
+            [['com_tipocompeticion', 'com_temporada', 'com_licencia',
+                'com_division', 'com_numeroequipos', 'com_grupo'], 'required'],
+            [['com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_division',
+                'com_numeroequipos'], 'integer'],
+            [['com_create_at', 'com_update_at', 'globalSearch', 'file'], 'safe'],
             [['com_grupo'], 'string', 'max' => 40],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['com_imagen', 'com_notas'], 'string', 'max' => 255],
-            [['com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_grupo', 'com_division'], 'unique', 'targetAttribute' => ['com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_grupo', 'com_division']],
-            [['com_licencia'], 'exist', 'skipOnError' => true, 'targetClass' => Licencia::className(), 'targetAttribute' => ['com_licencia' => 'li_id']],
-            [['com_tipocompeticion'], 'exist', 'skipOnError' => true, 'targetClass' => Tipocompeticion::className(), 'targetAttribute' => ['com_tipocompeticion' => 'tip_id']],
-            [['com_division'], 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['com_division' => 'div_id']],
-            [['com_temporada'], 'exist', 'skipOnError' => true, 'targetClass' => Temporada::className(), 'targetAttribute' => ['com_temporada' => 'tem_id']],
+            [['com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_grupo',
+                'com_division'], 'unique', 'targetAttribute' => ['com_tipocompeticion',
+                    'com_temporada', 'com_licencia', 'com_grupo', 'com_division']],
+            [['com_licencia'], 'exist', 'skipOnError' => true, 'targetClass' => Licencia::className(),
+                'targetAttribute' => ['com_licencia' => 'li_id']],
+            [['com_tipocompeticion'], 'exist', 'skipOnError' => true, 
+                'targetClass' => Tipocompeticion::className(), 'targetAttribute' => ['com_tipocompeticion' => 'tip_id']],
+            [['com_division'], 'exist', 'skipOnError' => true,
+                'targetClass' => Division::className(), 'targetAttribute' => ['com_division' => 'div_id']],
+            [['com_temporada'], 'exist', 'skipOnError' => true, 
+                'targetClass' => Temporada::className(), 'targetAttribute' => ['com_temporada' => 'tem_id']],
         ];
     }
 
@@ -66,18 +76,17 @@ class Competicion extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'com_id' => Yii::t('app', 'Com ID'),
-            'com_nombre' => Yii::t('app', 'Com Nombre'),
-            'com_tipocompeticion' => Yii::t('app', 'Com Tipocompeticion'),
-            'com_temporada' => Yii::t('app', 'Com Temporada'),
-            'com_licencia' => Yii::t('app', 'Com Licencia'),
-            'com_grupo' => Yii::t('app', 'Com Grupo'),
-            'com_division' => Yii::t('app', 'Com Division'),
-            'com_numeroequipos' => Yii::t('app', 'Com Numeroequipos'),
-            'com_imagen' => Yii::t('app', 'Com Imagen'),
-            'com_notas' => Yii::t('app', 'Com Notas'),
-            'com_create_at' => Yii::t('app', 'Com Create At'),
-            'com_update_at' => Yii::t('app', 'Com Update At'),
+            'com_id' => Yii::t('app', 'Id'),
+            'com_tipocompeticion' => Yii::t('app', 'Type of competition'),
+            'com_temporada' => Yii::t('app', 'Season'),
+            'com_licencia' => Yii::t('app', 'License'),
+            'com_grupo' => Yii::t('app', 'Group'),
+            'com_division' => Yii::t('app', 'Division'),
+            'com_numeroequipos' => Yii::t('app', 'Nº teams'),
+            'com_imagen' => Yii::t('app', 'Image'),
+            'com_notas' => Yii::t('app', 'Notes'),
+            'com_create_at' => Yii::t('app', 'Create At'),
+            'com_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

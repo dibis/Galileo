@@ -192,5 +192,15 @@ return [
     'Club dates' => 'Datos del club',
     'Emblems' => 'Emblemas del club',
     'With text' => 'Con texto',
-    
+    //equipo
+    'Team' => 'Equipo',
+    'Select one club' => 'Seleccione un club',
+    'Select one license' => 'Seleccione una licencia',
+    //Competicion
+    'Nº teams' => 'Nº equipos',
+    'Competition' => 'Competición',
+    'Group' => 'Grupo',
+    'Select type of competition' => 'Selecciona el tipo de competición',
+    'Select one season' => 'Seleccione una temporada',
+    'Select one division' => 'Seleccione una división',
 ];

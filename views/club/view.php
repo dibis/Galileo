@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $model->clu_nombre;
 
     <p>
         <br>
-<?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a(Yii::t('app', 'Return'), ['index'], ['class' => 'btn btn-info']) ?>
     </p>
 
 </div>

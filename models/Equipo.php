@@ -23,6 +23,7 @@ use Yii;
  */
 class Equipo extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -37,9 +38,9 @@ class Equipo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['equ_club', 'equ_nomcorto'], 'required'],
+            [['equ_club', 'equ_nomcorto', 'equ_licencia'], 'required'],
             [['equ_club', 'equ_licencia', 'equ_propio'], 'integer'],
-            [['equ_create_at', 'equ_update_at'], 'safe'],
+            [['equ_create_at', 'equ_update_at', 'globalSearch'], 'safe'],
             [['equ_nomcorto'], 'string', 'max' => 30],
             [['equ_datos'], 'string', 'max' => 255],
             [['equ_club', 'equ_nomcorto', 'equ_licencia'], 'unique', 'targetAttribute' => ['equ_club', 'equ_nomcorto', 'equ_licencia']],
@@ -54,14 +55,14 @@ class Equipo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'equ_id' => Yii::t('app', 'Equ ID'),
-            'equ_club' => Yii::t('app', 'Equ Club'),
-            'equ_nomcorto' => Yii::t('app', 'Equ Nomcorto'),
-            'equ_licencia' => Yii::t('app', 'Equ Licencia'),
-            'equ_propio' => Yii::t('app', 'Equ Propio'),
-            'equ_datos' => Yii::t('app', 'Equ Datos'),
-            'equ_create_at' => Yii::t('app', 'Equ Create At'),
-            'equ_update_at' => Yii::t('app', 'Equ Update At'),
+            'equ_id' => Yii::t('app', 'Id'),
+            'equ_club' => Yii::t('app', 'Club'),
+            'equ_nomcorto' => Yii::t('app', 'Short name'),
+            'equ_licencia' => Yii::t('app', 'License'),
+            'equ_propio' => Yii::t('app', 'Own'),
+            'equ_datos' => Yii::t('app', 'Notes'),
+            'equ_create_at' => Yii::t('app', 'Create At'),
+            'equ_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

@@ -17,8 +17,10 @@ class CompeticionSearch extends Competicion
     public function rules()
     {
         return [
-            [['com_id', 'com_tipocompeticion', 'com_temporada', 'com_licencia', 'com_division', 'com_numeroequipos'], 'integer'],
-            [['com_nombre', 'com_grupo', 'com_imagen', 'com_notas', 'com_create_at', 'com_update_at'], 'safe'],
+            [['com_id', 'com_tipocompeticion', 'com_temporada', 'com_licencia',
+                'com_division', 'com_numeroequipos'], 'integer'],
+            [['com_grupo', 'com_imagen', 'com_notas', 'com_create_at',
+                'com_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +48,35 @@ class CompeticionSearch extends Competicion
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['com_create_at' => SORT_ASC]],
+            'pagination' => ['defaultPageSize' => 10]
+        ]);
+        
+        $dataProvider->setSort([
+            'attributes' => [
+                'com_numeroequipos',
+                'com_grupo',
+                'comLicencia.lic_nombre' => [
+                    'asc' => ['licencia.lic_nombre' => SORT_ASC,],
+                    'desc' => ['licencia.lic_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'License'),
+                ],
+                'com_temporada' => [
+                    'asc' => ['temporada.tem_inicio' => SORT_ASC,],
+                    'desc' => ['temporada.tem_inicio' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Season'),
+                ],
+                'comTipocompeticion.tip_nombre' => [
+                    'asc' => ['tipocompeticion.tip_nombre' => SORT_ASC,],
+                    'desc' => ['tipocompeticion.tip_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Type of competition'),
+                ],
+                'comDivision.div_nombre' => [
+                    'asc' => ['division.div_nombre' => SORT_ASC,],
+                    'desc' => ['division.div_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Division'),
+                ],
+            ]
         ]);
 
         $this->load($params);
@@ -56,22 +87,18 @@ class CompeticionSearch extends Competicion
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'com_id' => $this->com_id,
-            'com_tipocompeticion' => $this->com_tipocompeticion,
-            'com_temporada' => $this->com_temporada,
-            'com_licencia' => $this->com_licencia,
-            'com_division' => $this->com_division,
-            'com_numeroequipos' => $this->com_numeroequipos,
-            'com_create_at' => $this->com_create_at,
-            'com_update_at' => $this->com_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'com_nombre', $this->com_nombre])
-            ->andFilterWhere(['like', 'com_grupo', $this->com_grupo])
-            ->andFilterWhere(['like', 'com_imagen', $this->com_imagen])
-            ->andFilterWhere(['like', 'com_notas', $this->com_notas]);
+        $query->joinWith(['comLicencia']);
+        $query->joinWith(['comTemporada']);
+        $query->joinWith(['comTipocompeticion']);
+        $query->joinWith(['comDivision']);
+        
+        $query->orFilterWhere(['like', 'com_numeroequipos', $this->globalSearch])
+            ->orFilterWhere(['like', 'com_grupo', $this->globalSearch])
+            ->orFilterWhere(['like', 'licencia.lic_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'temporada.tem_inicio', $this->globalSearch])
+            ->orFilterWhere(['like', 'temporada.tem_final', $this->globalSearch])
+            ->orFilterWhere(['like', 'tipocompeticion.tip_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'division.div_nombre', $this->globalSearch]);
 
         return $dataProvider;
     }
