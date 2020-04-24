@@ -66,13 +66,42 @@ class DatosclubController extends Controller
     {
         $model = new Datosclub();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dat_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/camiseta/';
+                    $model->dat_camiseta = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                $model->file2 = \yii\web\UploadedFile::getInstance($model, 'file2');
+                if($model->file2){
+                    $imagepath2 = 'uploads/camisetados/';
+                    $model->dat_camiseta2 = $imagepath2.rand(10,100).'_'.$model->file2->name;
+                }
+                $model->file3 = \yii\web\UploadedFile::getInstance($model, 'file3');
+                if($model->file3){
+                    $imagepath2 = 'uploads/patrocinador/';
+                    $model->dat_imagenpatro = $imagepath2.rand(10,100).'_'.$model->file3->name;
+                }
+                
+                if( $model->save()){
+                    if($model->file){
+                        $model->file->saveAs($model->dat_camiseta);
+                    }
+                    if($model->file2){
+                        $model->file2->saveAs($model->dat_camiseta2);
+                    }
+                    if($model->file3){
+                        $model->file3->saveAs($model->dat_imagenpatro);
+                    }
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Created ').$model->datClub->clu_nomcorto);
+                    return $this->redirect(['create']);
+                }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            }
+
+            return $this->render('create', [
+                        'model' => $model,
+            ]);
     }
 
     /**
@@ -86,9 +115,41 @@ class DatosclubController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dat_id]);
-        }
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+                if($model->file){
+                    $imagepath = 'uploads/camiseta/';
+                    $model->dat_camiseta = $imagepath.rand(10,100).'_'.$model->file->name;
+                }
+                $model->file2 = \yii\web\UploadedFile::getInstance($model, 'file2');
+                if($model->file2){
+                    $imagepath2 = 'uploads/camisetados/';
+                    $model->dat_camiseta2 = $imagepath2.rand(10,100).'_'.$model->file2->name;
+                }
+                $model->file3 = \yii\web\UploadedFile::getInstance($model, 'file3');
+                if($model->file3){
+                    $imagepath2 = 'uploads/patrocinador/';
+                    $model->dat_imagenpatro = $imagepath2.rand(10,100).'_'.$model->file3->name;
+                }
+                
+                if($model->save()){
+                    
+                    if($model->file){
+                        $model->file->saveAs($model->dat_camiseta);
+                    }
+                    if($model->file2){
+                        $model->file2->saveAs($model->dat_camiseta2);
+                    }
+                    if($model->file3){
+                        $model->file3->saveAs($model->dat_imagenpatro);
+                    }
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ').$model->datClub->clu_nomcorto);
+                    return $this->redirect(['index']);
+                }
+
+            }
+
 
         return $this->render('update', [
             'model' => $model,
@@ -104,11 +165,58 @@ class DatosclubController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->datClub->clu_nomcorto;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
-
+    
+    public function actionDeletefoto($id){
+        $foto = Datosclub::find()->where(['dat_id'=>$id])->one()->dat_camiseta;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen = Datosclub::findOne($id);
+        $imagen->dat_camiseta = null;
+        $imagen->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
+    }
+    
+    public function actionDeletefoto2($id){
+        $foto = Datosclub::find()->where(['dat_id'=>$id])->one()->dat_camiseta2;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen2 = Datosclub::findOne($id);
+        $imagen2->dat_camiseta2 = null;
+        $imagen2->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
+    }
+    
+    public function actionDeletefoto3($id){
+        $foto = Datosclub::find()->where(['dat_id'=>$id])->one()->dat_imagenpatro;
+        if($foto){
+            if(!unlink($foto)){
+                return false;
+            }
+        }
+        $imagen3 = Datosclub::findOne($id);
+        $imagen3->dat_imagenpatro = null;
+        $imagen3->update();
+        
+        return $this->redirect(['update', 'id' => $id]);
+        
+    }
+    
+    
     /**
      * Finds the Datosclub model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

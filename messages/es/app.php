@@ -203,4 +203,24 @@ return [
     'Select type of competition' => 'Selecciona el tipo de competición',
     'Select one season' => 'Seleccione una temporada',
     'Select one division' => 'Seleccione una división',
+    //Datos del club
+    'Members' => 'Socios',
+    'Budget' => 'Presupuesto',
+    'Equipment' => 'Equipación',
+    'Equipment 2ª' => 'Equipación 2ª',
+    'Sponsor' => 'Patrocinador',
+    'Image sponsor' => 'Logo patrocinador',
+    'Club dates' => 'Datos del club',
+    'Tshirts' => 'Camisetas',
+    'Annotations' => 'Anotaciones',
+    //Homenaje
+    'Person' => 'Persona',
+    'Date' => 'Fecha',
+    'Tribute' => 'Homenaje',
+    
+    
+    
+    
+    
+    
 ];

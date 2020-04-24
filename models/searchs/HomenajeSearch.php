@@ -18,7 +18,7 @@ class HomenajeSearch extends Homenaje
     {
         return [
             [['hom_id', 'hom_persona', 'hom_reconocimiento', 'hom_temporada'], 'integer'],
-            [['hom_fecha', 'hom_notas', 'hom_create_at', 'hom_update_at'], 'safe'],
+            [['hom_fecha', 'hom_notas', 'hom_create_at', 'hom_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,6 +46,32 @@ class HomenajeSearch extends Homenaje
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['hom_create_at' => SORT_ASC]],
+            'pagination' => ['defaultPageSize' => 15]
+        ]);
+        
+        $dataProvider->setSort([
+            'attributes' => [
+                'homPersona.personacompleta' => [
+                    'asc' => ['persona.personacompleta' => SORT_ASC,],
+                    'desc' => ['persona.personacompleta' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Person'),
+                ],
+                'homReconocimiento.rec_nombre' => [
+                    'asc' => ['reconocimiento.rec_nombre' => SORT_ASC,],
+                    'desc' => ['reconocimiento.rec_nombre' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Acknowledgment'),
+                ],
+                'homTemporada.temporadacompleta' => [
+                    'asc' => ['temporada.tem_inicio' => SORT_ASC,],
+                    'desc' => ['temporada.tem_inicio' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Season'),
+                ],
+                'hom_fecha',
+                'hom_notas',
+                'hom_create_at',
+                'hom_update_at',
+            ]
         ]);
 
         $this->load($params);
@@ -56,18 +82,16 @@ class HomenajeSearch extends Homenaje
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'hom_id' => $this->hom_id,
-            'hom_persona' => $this->hom_persona,
-            'hom_reconocimiento' => $this->hom_reconocimiento,
-            'hom_temporada' => $this->hom_temporada,
-            'hom_fecha' => $this->hom_fecha,
-            'hom_create_at' => $this->hom_create_at,
-            'hom_update_at' => $this->hom_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'hom_notas', $this->hom_notas]);
+        $query->joinWith(['homPersona']);
+        $query->joinWith(['homReconocimiento']);
+        $query->joinWith(['homTemporada']);
+        
+        $query->orFilterWhere(['like', 'hom_fecha', $this->globalSearch])
+                ->orFilterWhere(['like', 'temporada.tem_inicio', $this->globalSearch])
+                ->orFilterWhere(['like', 'temporada.tem_final', $this->globalSearch])
+                ->orFilterWhere(['like', 'reconocimiento.rec_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'persona.per_nombre', $this->globalSearch])
+                ->orFilterWhere(['like', 'persona.per_apellidos', $this->globalSearch]);
 
         return $dataProvider;
     }

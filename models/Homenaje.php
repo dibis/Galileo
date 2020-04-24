@@ -22,6 +22,7 @@ use Yii;
  */
 class Homenaje extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -38,7 +39,7 @@ class Homenaje extends \yii\db\ActiveRecord
         return [
             [['hom_persona', 'hom_reconocimiento', 'hom_temporada'], 'required'],
             [['hom_persona', 'hom_reconocimiento', 'hom_temporada'], 'integer'],
-            [['hom_fecha', 'hom_create_at', 'hom_update_at'], 'safe'],
+            [['hom_fecha', 'hom_create_at', 'hom_update_at', 'globalSearch'], 'safe'],
             [['hom_notas'], 'string', 'max' => 255],
             [['hom_persona', 'hom_reconocimiento', 'hom_temporada'], 'unique', 'targetAttribute' => ['hom_persona', 'hom_reconocimiento', 'hom_temporada']],
             [['hom_reconocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Reconocimiento::className(), 'targetAttribute' => ['hom_reconocimiento' => 'rec_id']],
@@ -53,14 +54,14 @@ class Homenaje extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'hom_id' => Yii::t('app', 'Hom ID'),
-            'hom_persona' => Yii::t('app', 'Hom Persona'),
-            'hom_reconocimiento' => Yii::t('app', 'Hom Reconocimiento'),
-            'hom_temporada' => Yii::t('app', 'Hom Temporada'),
-            'hom_fecha' => Yii::t('app', 'Hom Fecha'),
-            'hom_notas' => Yii::t('app', 'Hom Notas'),
-            'hom_create_at' => Yii::t('app', 'Hom Create At'),
-            'hom_update_at' => Yii::t('app', 'Hom Update At'),
+            'hom_id' => Yii::t('app', 'Id'),
+            'hom_persona' => Yii::t('app', 'Person'),
+            'hom_reconocimiento' => Yii::t('app', 'Acknowledgment'),
+            'hom_temporada' => Yii::t('app', 'Season'),
+            'hom_fecha' => Yii::t('app', 'Date'),
+            'hom_notas' => Yii::t('app', 'Notes'),
+            'hom_create_at' => Yii::t('app', 'Create At'),
+            'hom_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

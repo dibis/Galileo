@@ -67,7 +67,8 @@ class HomenajeController extends Controller
         $model = new Homenaje();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->hom_id]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->homPersona->personacompleta);
+                return $this->redirect(['create']);
         }
 
         return $this->render('create', [
@@ -87,7 +88,8 @@ class HomenajeController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->hom_id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Updated ') . $model->homPersona->personacompleta);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -104,8 +106,9 @@ class HomenajeController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->homPersona->personacompleta;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 

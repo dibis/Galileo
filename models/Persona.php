@@ -23,6 +23,7 @@ use Yii;
  * @property Homenaje[] $homenajes
  * @property Personacargo[] $personacargos
  * @property Ciudad $perLocalidad
+ * @property Persona $personacompleta
  */
 class Persona extends \yii\db\ActiveRecord
 {
@@ -95,6 +96,12 @@ class Persona extends \yii\db\ActiveRecord
     public function getPerLocalidad()
     {
         return $this->hasOne(Ciudad::className(), ['ciu_id' => 'per_localidad']);
+    }
+    
+    public function getPersonacompleta()
+    {
+        $completo = $this->per_nombre." ".$this->per_apellidos;
+        return $completo;
     }
     
 }

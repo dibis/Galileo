@@ -18,7 +18,8 @@ class DatosclubSearch extends Datosclub
     {
         return [
             [['dat_id', 'dat_club', 'dat_temporada', 'dat_socios', 'dat_presupuesto'], 'integer'],
-            [['dat_camiseta', 'dat_camiseta2', 'dat_patrocinador', 'dat_imagenpatro', 'dat_notas', 'dat_create_at', 'dat_update_at'], 'safe'],
+            [['dat_camiseta', 'dat_camiseta2', 'dat_patrocinador', 'dat_imagenpatro',
+                'dat_notas', 'dat_create_at', 'dat_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,8 +47,32 @@ class DatosclubSearch extends Datosclub
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['dat_create_at' => SORT_DESC]],
+            'pagination' => ['defaultPageSize' => 10]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'dat_socios',
+                'dat_presupuesto',
+                'dat_camiseta',
+                'dat_camiseta2',
+                'dat_patrocinador',
+                'dat_imagenpatro',
+                'dat_notas',
+                'datClub.clu_nomcorto' => [
+                    'asc' => ['club.clu_nomcorto' => SORT_ASC,],
+                    'desc' => ['club.clu_nomcorto' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Club'),
+                ],
+                'datTemporada.temporadacompleta' => [
+                    'asc' => ['temporada.tem_inicio' => SORT_ASC,],
+                    'desc' => ['temporada.tem_inicio' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Season'),
+                ],
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -56,22 +81,15 @@ class DatosclubSearch extends Datosclub
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'dat_id' => $this->dat_id,
-            'dat_club' => $this->dat_club,
-            'dat_temporada' => $this->dat_temporada,
-            'dat_socios' => $this->dat_socios,
-            'dat_presupuesto' => $this->dat_presupuesto,
-            'dat_create_at' => $this->dat_create_at,
-            'dat_update_at' => $this->dat_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'dat_camiseta', $this->dat_camiseta])
-            ->andFilterWhere(['like', 'dat_camiseta2', $this->dat_camiseta2])
-            ->andFilterWhere(['like', 'dat_patrocinador', $this->dat_patrocinador])
-            ->andFilterWhere(['like', 'dat_imagenpatro', $this->dat_imagenpatro])
-            ->andFilterWhere(['like', 'dat_notas', $this->dat_notas]);
+        $query->joinWith(['datClub']);
+        $query->joinWith(['datTemporada']);
+        
+        $query->orFilterWhere(['like', 'dat_socios', $this->globalSearch])
+            ->orFilterWhere(['like', 'dat_presupuesto', $this->globalSearch])
+            ->orFilterWhere(['like', 'dat_patrocinador', $this->globalSearch])
+            ->orFilterWhere(['like', 'club.clu_nombre', $this->globalSearch])
+            ->orFilterWhere(['like', 'temporada.tem_inicio', $this->globalSearch])
+            ->orFilterWhere(['like', 'temporada.tem_final', $this->globalSearch]);
 
         return $dataProvider;
     }

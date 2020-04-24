@@ -25,6 +25,10 @@ use Yii;
  */
 class Datosclub extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
+    public $file;
+    public $file2;
+    public $file3;
     /**
      * {@inheritdoc}
      */
@@ -42,6 +46,8 @@ class Datosclub extends \yii\db\ActiveRecord
             [['dat_club', 'dat_temporada'], 'required'],
             [['dat_club', 'dat_temporada', 'dat_socios', 'dat_presupuesto'], 'integer'],
             [['dat_create_at', 'dat_update_at'], 'safe'],
+            [['globalSearch', 'file', 'file2', 'file3'], 'safe'],
+            [['file', 'file2', 'file3'], 'file', 'extensions' => 'jpg, gif, png, webp', 'maxSize' => 3145728],
             [['dat_camiseta', 'dat_camiseta2', 'dat_imagenpatro', 'dat_notas'], 'string', 'max' => 255],
             [['dat_patrocinador'], 'string', 'max' => 150],
             [['dat_club', 'dat_temporada'], 'unique', 'targetAttribute' => ['dat_club', 'dat_temporada']],
@@ -56,18 +62,18 @@ class Datosclub extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'dat_id' => Yii::t('app', 'Dat ID'),
-            'dat_club' => Yii::t('app', 'Dat Club'),
-            'dat_temporada' => Yii::t('app', 'Dat Temporada'),
-            'dat_socios' => Yii::t('app', 'Dat Socios'),
-            'dat_presupuesto' => Yii::t('app', 'Dat Presupuesto'),
-            'dat_camiseta' => Yii::t('app', 'Dat Camiseta'),
-            'dat_camiseta2' => Yii::t('app', 'Dat Camiseta2'),
-            'dat_patrocinador' => Yii::t('app', 'Dat Patrocinador'),
-            'dat_imagenpatro' => Yii::t('app', 'Dat Imagenpatro'),
-            'dat_notas' => Yii::t('app', 'Dat Notas'),
-            'dat_create_at' => Yii::t('app', 'Dat Create At'),
-            'dat_update_at' => Yii::t('app', 'Dat Update At'),
+            'dat_id' => Yii::t('app', 'Id'),
+            'dat_club' => Yii::t('app', 'Club'),
+            'dat_temporada' => Yii::t('app', 'Season'),
+            'dat_socios' => Yii::t('app', 'Members'),
+            'dat_presupuesto' => Yii::t('app', 'Budget'),
+            'dat_camiseta' => Yii::t('app', 'Equipment'),
+            'dat_camiseta2' => Yii::t('app', 'Equipment 2ª'),
+            'dat_patrocinador' => Yii::t('app', 'Sponsor'),
+            'dat_imagenpatro' => Yii::t('app', 'Image sponsor'),
+            'dat_notas' => Yii::t('app', 'Notes'),
+            'dat_create_at' => Yii::t('app', 'Create At'),
+            'dat_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 
