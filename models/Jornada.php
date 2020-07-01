@@ -19,6 +19,7 @@ use Yii;
  */
 class Jornada extends \yii\db\ActiveRecord
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -34,7 +35,7 @@ class Jornada extends \yii\db\ActiveRecord
     {
         return [
             [['jor_nombrenum', 'jor_fecha', 'jor_competicion'], 'required'],
-            [['jor_fecha', 'jor_create_at', 'jor_update_at'], 'safe'],
+            [['jor_fecha', 'jor_create_at', 'jor_update_at', 'globalSearch'], 'safe'],
             [['jor_competicion'], 'integer'],
             [['jor_nombrenum'], 'string', 'max' => 30],
             [['jor_nombrenum', 'jor_competicion'], 'unique', 'targetAttribute' => ['jor_nombrenum', 'jor_competicion']],
@@ -48,12 +49,12 @@ class Jornada extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'jor_id' => Yii::t('app', 'Jor ID'),
-            'jor_nombrenum' => Yii::t('app', 'Jor Nombrenum'),
-            'jor_fecha' => Yii::t('app', 'Jor Fecha'),
-            'jor_competicion' => Yii::t('app', 'Jor Competicion'),
-            'jor_create_at' => Yii::t('app', 'Jor Create At'),
-            'jor_update_at' => Yii::t('app', 'Jor Update At'),
+            'jor_id' => Yii::t('app', 'Id'),
+            'jor_nombrenum' => Yii::t('app', 'Matchday'),
+            'jor_fecha' => Yii::t('app', 'Date'),
+            'jor_competicion' => Yii::t('app', 'Competition'),
+            'jor_create_at' => Yii::t('app', 'Create At'),
+            'jor_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

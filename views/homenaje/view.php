@@ -30,31 +30,44 @@ $this->params['breadcrumbs'][] = $model->homPersona->personacompleta;
 
     <div class="row">
         <div class="col-md-6">
-    <?=
-    DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'homPersona.personacompleta',
-            'homReconocimiento.rec_nombre',
-            'homTemporada.temporadacompleta',
-            [
-                'attribute' => 'hom_fecha',
-                'value' => $model->hom_fecha,
-                'format' => ['date', 'php: d-m-Y'],
-            ],
-            'hom_notas',
-            [
-                'attribute' => 'hom_create_at',
-                'value' => $model->hom_create_at,
-                'format' => ['date', 'php: d-m-Y'],
-            ],
-            [
-                'attribute' => 'hom_update_at',
-                'value' => $model->hom_update_at,
-                'format' => ['date', 'php: d-m-Y'],
-            ],
-        ],
-    ]) ?>
+            <?=
+            DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    [
+                        'attribute' => 'homPersona.personacompleta',
+                        'label' => Yii::t('app', 'Person'),
+                    ],
+                    [
+                        'attribute' => 'homReconocimiento.rec_nombre',
+                        'label' => Yii::t('app', 'Acknowledgment'),
+                    ],
+                    [
+                        'attribute' => 'homTemporada.temporadacompleta',
+                        'label' => Yii::t('app', 'Season'),
+                    ],
+                    [
+                        'attribute' => 'hom_fecha',
+                        'value' => $model->hom_fecha,
+                        'format' => ['date', 'php: d-m-Y'],
+                    ],
+                    'hom_notas',
+                    [
+                        'attribute' => 'hom_create_at',
+                        'value' => $model->hom_create_at,
+                        'format' => ['date', 'php: d-m-Y'],
+                    ],
+                    [
+                        'attribute' => 'hom_update_at',
+                        'value' => $model->hom_update_at,
+                        'format' => ['date', 'php: d-m-Y'],
+                    ],
+                ],
+            ])
+            ?>
+        </div>
+    </div>
+
 
     <p>
         <br>

@@ -67,6 +67,7 @@ class PartidoController extends Controller
         $model = new Partido();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Created ') . $model->parEquipo1.' - '.$model->parEquipo2);
             return $this->redirect(['view', 'id' => $model->par_id]);
         }
 
@@ -87,6 +88,7 @@ class PartidoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Updated ') . $model->parEquipo1.' - '.$model->parEquipo2);
             return $this->redirect(['view', 'id' => $model->par_id]);
         }
 
@@ -104,8 +106,9 @@ class PartidoController extends Controller
      */
     public function actionDelete($id)
     {
+        $nombre = $this->findModel($id)->parEquipo1.' - '.$this->findModel($id)->parEquipo2;
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Deleted ') . $nombre);
         return $this->redirect(['index']);
     }
 

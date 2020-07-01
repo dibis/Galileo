@@ -217,7 +217,24 @@ return [
     'Person' => 'Persona',
     'Date' => 'Fecha',
     'Tribute' => 'Homenaje',
-    
+    'Select one person' => 'Seleccione una persona',
+    'Select one acknowledgment' => 'Seleccione un reconocimiento',
+    //jornada
+    'Matchday' => 'Jornada',
+    'Select one competition' => 'Seleccione un competición',
+    'Name or number' => 'Nombre o número de la jornada',
+    'Matchday ' => 'Jornada ',
+    //Partido
+    'Local team' => 'Equipo local',
+    'Visiting team' => 'Equipo visitante',
+    'Score' => 'Resultado',
+    'Pool' => 'Quiniela',
+    'Played' => 'Jugado',
+    'Hour' => 'Hora',
+    'Postponed' => 'Aplazado',
+    'Feature' => 'Crónica',
+    'Sanction Team 1' => 'Sanción equipo 1',
+    'Sanction Team 2' => 'Sanción equipo 2',
     
     
     

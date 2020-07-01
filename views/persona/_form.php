@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Modal;
 use kartik\checkbox\CheckboxX;
 use kartik\date\DatePicker;
 use app\models\Ciudad;

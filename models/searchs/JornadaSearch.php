@@ -18,7 +18,7 @@ class JornadaSearch extends Jornada
     {
         return [
             [['jor_id', 'jor_competicion'], 'integer'],
-            [['jor_nombrenum', 'jor_fecha', 'jor_create_at', 'jor_update_at'], 'safe'],
+            [['jor_nombrenum', 'jor_fecha', 'jor_create_at', 'jor_update_at', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -46,8 +46,24 @@ class JornadaSearch extends Jornada
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['jor_create_at' => SORT_ASC]],
+            'pagination' => ['defaultPageSize' => 20]
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'jorCompeticion.competicioncompleta' => [
+                    'asc' => ['competicion.com_temporada' => SORT_ASC,],
+                    'desc' => ['competicion.com_temporada' => SORT_DESC],
+                    'label' => \Yii::t('app', 'Competition'),
+                ],
+                'jor_fecha',
+                'jor_nombrenum',
+                'jor_create_at',
+                'jor_update_at',
+            ]
+        ]);
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -56,16 +72,11 @@ class JornadaSearch extends Jornada
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'jor_id' => $this->jor_id,
-            'jor_fecha' => $this->jor_fecha,
-            'jor_competicion' => $this->jor_competicion,
-            'jor_create_at' => $this->jor_create_at,
-            'jor_update_at' => $this->jor_update_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'jor_nombrenum', $this->jor_nombrenum]);
+        $query->joinWith(['jorCompeticion']);
+        
+        $query->orFilterWhere(['like', 'jor_fecha', $this->globalSearch])
+                ->orFilterWhere(['like', 'jor_nombrenum', $this->globalSearch])
+                ->orFilterWhere(['like', 'competicion.com_division', $this->globalSearch]);
 
         return $dataProvider;
     }

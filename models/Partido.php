@@ -36,6 +36,9 @@ class Partido extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    
+    public $globalSearch;
+    
     public static function tableName()
     {
         return 'partido';
@@ -48,15 +51,21 @@ class Partido extends \yii\db\ActiveRecord
     {
         return [
             [['par_jornada', 'par_equipo1', 'par_equipo2'], 'required'],
-            [['par_jornada', 'par_equipo1', 'par_equipo2', 'par_resultado1', 'par_resultado2', 'par_jugado', 'par_aplazado', 'par_estadio', 'par_sancion1equipo', 'par_sancion2equipo'], 'integer'],
-            [['par_fecha', 'par_hora', 'par_create_at', 'par_update_at'], 'safe'],
+            [['par_jornada', 'par_equipo1', 'par_equipo2', 'par_resultado1', 
+                'par_resultado2', 'par_jugado', 'par_aplazado', 'par_estadio',
+                'par_sancion1equipo', 'par_sancion2equipo'], 'integer'],
+            [['par_fecha', 'par_hora', 'par_create_at', 'par_update_at', 'globalSearch'], 'safe'],
             [['par_cronica'], 'string'],
             [['par_quiniela'], 'string', 'max' => 1],
             [['par_notas'], 'string', 'max' => 255],
-            [['par_jornada', 'par_equipo1', 'par_equipo2'], 'unique', 'targetAttribute' => ['par_jornada', 'par_equipo1', 'par_equipo2']],
-            [['par_jornada'], 'exist', 'skipOnError' => true, 'targetClass' => Jornada::className(), 'targetAttribute' => ['par_jornada' => 'jor_id']],
-            [['par_equipo1'], 'exist', 'skipOnError' => true, 'targetClass' => Equipocompeticion::className(), 'targetAttribute' => ['par_equipo1' => 'eqc_id']],
-            [['par_equipo2'], 'exist', 'skipOnError' => true, 'targetClass' => Equipocompeticion::className(), 'targetAttribute' => ['par_equipo2' => 'eqc_id']],
+            [['par_jornada', 'par_equipo1', 'par_equipo2'], 'unique',
+                'targetAttribute' => ['par_jornada', 'par_equipo1', 'par_equipo2']],
+            [['par_jornada'], 'exist', 'skipOnError' => true,
+                'targetClass' => Jornada::className(), 'targetAttribute' => ['par_jornada' => 'jor_id']],
+            [['par_equipo1'], 'exist', 'skipOnError' => true,
+                'targetClass' => Equipocompeticion::className(), 'targetAttribute' => ['par_equipo1' => 'eqc_id']],
+            [['par_equipo2'], 'exist', 'skipOnError' => true,
+                'targetClass' => Equipocompeticion::className(), 'targetAttribute' => ['par_equipo2' => 'eqc_id']],
         ];
     }
 
@@ -66,24 +75,24 @@ class Partido extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'par_id' => Yii::t('app', 'Par ID'),
-            'par_jornada' => Yii::t('app', 'Par Jornada'),
-            'par_equipo1' => Yii::t('app', 'Par Equipo1'),
-            'par_equipo2' => Yii::t('app', 'Par Equipo2'),
-            'par_resultado1' => Yii::t('app', 'Par Resultado1'),
-            'par_resultado2' => Yii::t('app', 'Par Resultado2'),
-            'par_quiniela' => Yii::t('app', 'Par Quiniela'),
-            'par_jugado' => Yii::t('app', 'Par Jugado'),
-            'par_fecha' => Yii::t('app', 'Par Fecha'),
-            'par_hora' => Yii::t('app', 'Par Hora'),
-            'par_aplazado' => Yii::t('app', 'Par Aplazado'),
-            'par_estadio' => Yii::t('app', 'Par Estadio'),
-            'par_notas' => Yii::t('app', 'Par Notas'),
-            'par_cronica' => Yii::t('app', 'Par Cronica'),
-            'par_sancion1equipo' => Yii::t('app', 'Par Sancion1equipo'),
-            'par_sancion2equipo' => Yii::t('app', 'Par Sancion2equipo'),
-            'par_create_at' => Yii::t('app', 'Par Create At'),
-            'par_update_at' => Yii::t('app', 'Par Update At'),
+            'par_id' => Yii::t('app', 'Id'),
+            'par_jornada' => Yii::t('app', 'Matchday'),
+            'par_equipo1' => Yii::t('app', 'Local team'),
+            'par_equipo2' => Yii::t('app', 'Visiting team'),
+            'par_resultado1' => Yii::t('app', 'Score'),
+            'par_resultado2' => Yii::t('app', 'Score'),
+            'par_quiniela' => Yii::t('app', 'Pool'),
+            'par_jugado' => Yii::t('app', 'Played'),
+            'par_fecha' => Yii::t('app', 'Date'),
+            'par_hora' => Yii::t('app', 'Hour'),
+            'par_aplazado' => Yii::t('app', 'Postponed'),
+            'par_estadio' => Yii::t('app', 'Stadium'),
+            'par_notas' => Yii::t('app', 'Notes'),
+            'par_cronica' => Yii::t('app', 'Feature'),
+            'par_sancion1equipo' => Yii::t('app', 'Sanction Team 1'),
+            'par_sancion2equipo' => Yii::t('app', 'Sanction Team 2'),
+            'par_create_at' => Yii::t('app', 'Create At'),
+            'par_update_at' => Yii::t('app', 'Update At'),
         ];
     }
 

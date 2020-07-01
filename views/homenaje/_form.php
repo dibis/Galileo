@@ -70,7 +70,7 @@ use app\models\Persona;
 
 
 
-    <?= $form->field($model, 'hom_notas')->textarea(['maxlength' => true, 'rows' => 4]) ?>
+    <?= $form->field($model, 'hom_notas')->textarea(['maxlength' => true, 'rows' => 2]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

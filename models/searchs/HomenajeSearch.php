@@ -53,8 +53,8 @@ class HomenajeSearch extends Homenaje
         $dataProvider->setSort([
             'attributes' => [
                 'homPersona.personacompleta' => [
-                    'asc' => ['persona.personacompleta' => SORT_ASC,],
-                    'desc' => ['persona.personacompleta' => SORT_DESC],
+                    'asc' => ['persona.per_nombre' => SORT_ASC, 'persona.per_apellidos' => SORT_ASC,],
+                    'desc' => ['persona.per_nombre' => SORT_DESC, 'persona.per_apellidos' => SORT_DESC,],
                     'label' => \Yii::t('app', 'Person'),
                 ],
                 'homReconocimiento.rec_nombre' => [

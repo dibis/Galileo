@@ -29,6 +29,7 @@ use Yii;
  * @property Equipocompeticion[] $equipocompeticions
  * @property Equipo[] $eqcEquipos
  * @property Jornada[] $jornadas
+ * @property Competicion $competicioncompleta
  */
 class Competicion extends \yii\db\ActiveRecord
 {
@@ -160,5 +161,11 @@ class Competicion extends \yii\db\ActiveRecord
     public function getJornadas()
     {
         return $this->hasMany(Jornada::className(), ['jor_competicion' => 'com_id']);
+    }
+    
+    public function getCompeticioncompleta()
+    {
+        $completo = $this->com_division." división. Grupo: ".$this->com_grupo." - ".$this->comLicencia->lic_nombre." / ".$this->comTemporada->temporadacompleta;
+        return $completo;
     }
 }
